@@ -7,6 +7,8 @@ const nextConfig = {
             hostname: "ik.imagekit.io",
             port: "",
           },
+
+          
         ],
       },
 };

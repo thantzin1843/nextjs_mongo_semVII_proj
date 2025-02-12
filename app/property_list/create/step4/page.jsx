@@ -1,5 +1,6 @@
 'use client'
 import { saveProperty } from "@/app/actions/property";
+import { auth } from "@/auth";
 import Indicator from "@/components/Property/Indicator";
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -13,6 +14,7 @@ import { useState } from "react";
 
 
 export default function page(){
+    
      const { formData, updateFormData } = useFormContext();
      const [selectedFunThings, setSelectedFunThings]= useState(formData.selectedFunThings || []);
      const [privateBathroom, setprivateBathroom]= useState(formData.privateBathroom || true);
@@ -57,8 +59,6 @@ export default function page(){
       }
 
       const submitInfo = async () =>{
-        // await updateFormData({ selectedFunThings, privateBathroom, selectedBathroomItems,accessibility,payments,distance,unit});
-        // // router.push("/property_list/create/step5");
         formData.selectedFunThings =selectedFunThings;
         formData.privateBathroom =privateBathroom;
         formData.selectedBathroomItems =selectedBathroomItems;
@@ -66,8 +66,11 @@ export default function page(){
         formData.payments =payments;
         formData.distance =distance;
         formData.unit = unit;
+
+        // const session = await auth();
         
         const loadData = {
+            userId:localStorage.getItem("userId"),
             property_name: formData.propertyName,
             property_category: formData.propertyCategory,
             location: {
@@ -97,7 +100,7 @@ export default function page(){
             food_and_dining: {
               serve_breakfast: formData.serveBreakfast,
               free_breakfast: formData.freeBreakfast,
-              selected_foods: formData.propertyName
+              selected_foods: formData.selectedFoods
             },
             facilities: formData.facilities,
             fun_things_todo: formData.selectedFunThings,
@@ -112,7 +115,7 @@ export default function page(){
               unit: formData.unit
             }
           }
-
+          // console.log(loadData);
           try {
             const response = await fetch("/api/property/save", {
               method: "POST",
@@ -235,7 +238,14 @@ export default function page(){
             </div>
             <div className="flex w-full justify-between my-5 gap-5">
                   <Button onClick={prevStep} className="w-1/3 border border-primary bg-white hover:bg-white text-black">Back</Button>
-                  <Button className="w-2/3 text-end" onClick={submitInfo}>Next</Button>
+                  {
+                    formData.isEdit ? (
+                      <Button className="w-2/3 text-end" onClick={submitInfo}>Update</Button>
+                    ):(
+                      <Button className="w-2/3 text-end" onClick={submitInfo}>Save Property</Button>
+                    )
+                  }
+                  
             </div>
         </div>
 

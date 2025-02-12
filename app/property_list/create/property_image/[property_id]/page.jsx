@@ -4,11 +4,14 @@ import {Delete, ImagePlusIcon } from 'lucide-react'
 import React, { useEffect, useState } from "react";
 import { ImageKitProvider, IKImage, IKUpload } from "imagekitio-next";
 import { Button } from '@/components/ui/button';
+import { useParams } from 'next/navigation';
 
 const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY;
 const urlEndpoint = process.env.NEXT_PUBLIC_URL_ENDPOINT;
 
 export default function Home() {
+  const params = useParams();
+  const property_id = params.property_id;
   const [img, setImg] = useState([]);
   const authenticator = async () => {
     try {
@@ -27,9 +30,19 @@ export default function Home() {
     }
   };
   
+  const fetchAllImages = async(pid)=>{
+    try{
+      const res = await fetch('/api/property/images?property_id='+pid);
+      const data = await res.json();
+      setImg(data[0]?.images || []);
+    }catch(e){
+      console.log(e)
+    }
+  }
   useEffect(()=>{
+    fetchAllImages(property_id);
+  },[])
 
-  })
   const onError = (err) => {
     console.log("Error", err);
   };
@@ -50,23 +63,15 @@ export default function Home() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(img),
+        body: JSON.stringify({img,property_id}),
       });
-  
-      const data = await response.json();
-  
-      if (response.ok) {
-        console.log("Images saved to DB:", data.message);
-      } else {
-        console.error("Error saving images to DB:", data.error);
-      }
     } catch (error) {
       console.error("Request failed:", error);
     }
   }
 
   const deleteImage = async(fileId)=>{
-    console.log(fileId);
+    // console.log(fileId);
     try {
       const response = await fetch("/api/property/images", {
         method: "DELETE",
@@ -96,7 +101,7 @@ export default function Home() {
       
       <ImageKitProvider publicKey={publicKey} urlEndpoint={urlEndpoint} authenticator={authenticator}>
 
-         <div className='p-3 bg-red-500'>
+         <div className='p-3 '>
          
              <IKUpload fileName="test-upload.png" multiple onError={onError} onSuccess={onSuccess} className='invisible' id="images"/>
              <label htmlFor="images">

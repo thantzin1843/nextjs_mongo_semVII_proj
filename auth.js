@@ -54,13 +54,13 @@ export const {
         async jwt({ token, user }) {
             if (user) {
                 token.role = user.role; // Add role to JWT token
-                // token._id = user._id;
+                token._id = user._id;
             }
             return token;
         },
         async session({ session, token }) {
             session.user.role = token.role; // Add role to the session
-            // session.user._id = token._id; // Add user id to the session
+            session.user._id = token._id; // Add user id to the session
             return session;
         },
         },

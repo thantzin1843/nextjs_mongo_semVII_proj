@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 const PropertySchema = new mongoose.Schema(
   {
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     property_name: String,
     property_category: String,
     location: {

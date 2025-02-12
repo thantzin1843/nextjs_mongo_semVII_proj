@@ -20,7 +20,7 @@ async function Navbar() {
           {session?.user?.name ? 
           (
            <div className='flex'> 
-            <Link href={`/property_list`} className='me-3'><Button>List Your Property</Button></Link>
+            <Link href={`/property_list/${session.user._id}`} className='me-3'><Button>List Your Property</Button></Link>
             <div className=' flex items-center border border-primary p-1 rounded-md'><User/> {session?.user?.name}</div>
            </div>
           )  : (

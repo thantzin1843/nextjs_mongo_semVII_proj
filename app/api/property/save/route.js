@@ -16,3 +16,4 @@ export async function POST(req) {
     return NextResponse.json({ success: false, message: "Error saving hotel", error: error.message }, { status: 500 });
   }
 }
+

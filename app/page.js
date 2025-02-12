@@ -5,6 +5,8 @@ import Hero from "@/sections/Hero";
 import TrendDestination from "@/sections/TrendDestination";
 import { doLogout } from "./actions";
 import DashboardRedirect from "@/components/ClientNavigation";
+import PropertyCategory from "@/sections/PropertyCategory";
+import Footer from "@/sections/Footer";
 
 
 
@@ -15,7 +17,8 @@ export default async function Home() {
     session?.user?.role == null || session?.user?.role == 'user' ? (
       <div className="px-10">
       <Hero/>
-      {/* <TrendDestination/> */}
+      <TrendDestination/>
+      <PropertyCategory/>
 
       <h1 className="text-3xl mt-[50px]">
         Welcome, {session?.user?.role}
@@ -24,6 +27,7 @@ export default async function Home() {
         </form>
       </h1>
 
+      <Footer/>
     </div>
     ):(
       <DashboardRedirect role={session?.user?.role}/>

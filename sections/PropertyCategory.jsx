@@ -7,23 +7,27 @@ import {
     CarouselPrevious,
   } from "@/components/ui/carousel"
 import Image from 'next/image'
+import { propertyCategories } from '@/context/data'
   
-function TrendDestination() {
+function PropertyCategory() {
   return (
     <div className='mt-[70px] mb-[50px]'>
         <div className='text-xl mb-5 font-bold'>What kind of property are you looking for?</div>
 
        <Carousel className="mx-auto w-[90%]">
         <CarouselContent>
-
-            <CarouselItem className="basis-1/4">
-                <div className='w-full h-[350px]'>
-                    <img src="/yangon.webp" alt='a' className='w-full h-4/5 rounded-xl'/>
-                    <div class="font-bold">Yangon</div>
-                    <div className='text-sm text-gray-600'>20 properties</div>
+{
+    propertyCategories.map((c,index)=>(
+            <CarouselItem className="basis-1/4" key={index}>
+                <div className='w-full h-[300px] relative'>
+                    <img src={c.image} alt={c.name} className='w-full h-full rounded-xl'/>
+                    <div class="font-bold absolute bottom-3 w-full bg-white text-primary p-3">{c.name}</div>
                 </div>
 
             </CarouselItem>
+    ))
+}
+            
             
         </CarouselContent>
         <CarouselPrevious />
@@ -34,4 +38,4 @@ function TrendDestination() {
   )
 }
 
-export default TrendDestination
+export default PropertyCategory

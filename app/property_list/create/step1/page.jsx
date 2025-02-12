@@ -24,7 +24,7 @@ const Step1 = () => {
   };
   const prevStep = () => {
     updateFormData({ propertyCategory});
-    router.push("/property_list");
+    router.push("/property_list/"+localStorage.getItem("userId"));
   };
 
   const propertyCategories = [
