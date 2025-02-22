@@ -29,7 +29,8 @@ function SearchHotelForm() {
     console.log('Form submitted', { location, date });
   }
   return (
-    <div className='w-full mx-auto absolute bottom-[-50px] '>
+    // <div className='w-full mx-auto absolute bottom-[-50px] '>
+    <div className='w-full'>
         <form onSubmit={handleSubmit} className='flex justify-center gap-2 rounded-xl w-5/6 mx-auto p-5 shadow-lg border  bg-white'>
            <div className='flex flex-col'>
             <Input type="text" className="border border-primary" placeholder="Where are you going ?" onChange={(e)=>setLocation(e.target.value)}/>

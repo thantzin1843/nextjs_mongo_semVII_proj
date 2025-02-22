@@ -1,3 +1,4 @@
+import { BedDouble, BedSingle } from "lucide-react";
 
 
 export const funThings = [
@@ -87,3 +88,167 @@ export const propertyCategories = [
   ];
 
   
+  export const beds = [
+    {
+      name:"Twin bed",
+      width:"35-51",
+      icon:<BedSingle className='inline me-3'/>,
+    },
+    {
+      name:"Full bed",
+      width:"52-59",
+      icon:<BedDouble className='inline me-3'/>,
+    },
+    {
+      name:"Queen bed",
+      width:"60-70",
+      icon:<BedSingle className='inline me-3'/>,
+    },
+    {
+      name:"King bed",
+      width:"71-80",
+      icon:<BedSingle className='inline me-3'/>,
+    }
+
+  ]
+
+  export const all_facilities = [
+    "Restaurant",
+    "Room service",
+    "Bar",
+    "24-hour front desk",
+    "Sauna",
+    "Fitness centre",
+    "Garden",
+    "Terrace",
+    "Non-smoking rooms",
+    "Airport shuttle",
+    "Family rooms",
+    "Spa and wellness centre",
+    "Hot tub/Jacuzzi",
+    "Free WiFi",
+    "Air conditioning",
+    "Water park",
+    "Electric vehicle charging station",
+    "Swimming pool",
+    "Beach"
+    ]
+
+export const breakfastOptions = [
+  "Continental",
+  "Buffet",
+  "Full English",
+  "American",
+  "À la Carte",
+  "Room Service",
+  "Vegetarian",
+  "Vegan",
+  "Gluten-Free",
+  "Organic",
+  "Japanese",
+  "Indian",
+  "French",
+  "Mediterranean"
+];
+
+export const roomAmenities = [
+  "Mini Fridge",
+  "Coffee Maker",
+  "Flat-Screen TV",
+  "Cable/Satellite TV",
+  "In-Room Safe",
+  "Desk",
+  "Armchair",
+  "Wardrobe",
+  "Hair Dryer",
+  "Iron & Ironing Board",
+  "Room Service Menu",
+  "Complimentary Toiletries",
+  "High-Quality Linens",
+  "Soundproofing",
+  "Air Conditioning",
+  "Heating",
+  "Bluetooth Speaker"
+];
+
+export const outdoors =  [
+  "Balcony",'Terrace',"View"
+]
+
+export const views = [
+  "City View",
+  "Ocean View",
+  "Mountain View",
+  "Garden View",
+  "Pool View",
+  "Lake View",
+  "Skyline View",
+  "Sunset View",
+  'River View'
+]
+
+export const foodAndDrinks = [
+  "Room Service",
+  "Buffet",
+  "Bar",
+  "Cafe",
+  "Breakfast Buffet",
+  "Restaurant with Outdoor Seating",
+  "Snack Bar",
+  "Vegan Options",
+  "Vegetarian Options",
+  "Halal Food",
+  "Kid's Menu",
+  "Wine Tasting",
+  "BBQ Facilities"
+];
+
+export const roomNames = [
+  "Standard Room",
+  "Deluxe Room",
+  "Superior Room",
+  "Executive Room",
+  "Suite",
+  "Junior Suite",
+  "Presidential Suite",
+  "Penthouse",
+  "Family Room",
+  "Honeymoon Suite",
+  "Accessible Room",
+  "Twin Room",
+  "Double Room",
+  "King Room",
+  "Queen Room",
+  "Studio Room",
+  "Loft Room",
+  "Luxury Suite",
+  "Beachfront Room",
+  "Mountain View Room",
+  "Garden View Room"
+];
+
+export const roomTypes = [
+  "Single Room",
+  "Double Room",
+  "Triple Room",
+  "Quad Room",
+  "Family Suite",
+  "Executive Suite",
+  "Studio Apartment",
+  "Twin Room",
+  "Bunk Room",
+  "Connecting Room",
+  "Suite Room",
+  "Accessible Room",
+  "Dormitory Room",
+  "Penthouse Room",
+  "King Room",
+  "Queen Room",
+  "Triple Occupancy Room",
+  "Cabin",
+  "Villa",
+  "Apartment",
+  "Chalet",
+  "Loft",
+  "Cottage"
+];

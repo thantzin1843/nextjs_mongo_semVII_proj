@@ -7,6 +7,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input";
 import { allpayments, bathroomItems, funThings, propertyAccessibility } from "@/context/data";
 import { useFormContext } from "@/context/PropertyListContext";
+import { useToast } from "@/hooks/use-toast";
 import { Cross, Delete } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -23,6 +24,7 @@ export default function page(){
      const [payments, setPayments] = useState(formData.payments || []);
      const [distance, setDistance] = useState(formData.distance || 0);
      const [unit, setUnit] = useState(formData.unit || "");
+     const {toast} = useToast();
      const router = useRouter();
     const nextStep = () => {
         updateFormData({ selectedFunThings, privateBathroom, selectedBathroomItems,accessibility,payments,distance,unit});
@@ -57,7 +59,14 @@ export default function page(){
             prev.includes(item) ? prev.filter((payment) => payment !== item) : [...prev, item]
         );
       }
-
+    const openToast = () =>{
+      toast({
+        title: "Property saved successfully",
+        description: "Friday, February 10, 2023 at 5:57 PM",
+        bg:'bg-green-500 text-white'
+        
+      })
+    }
       const submitInfo = async () =>{
         formData.selectedFunThings =selectedFunThings;
         formData.privateBathroom =privateBathroom;
@@ -124,7 +133,8 @@ export default function page(){
             });
         
             const result = await response.json();
-            console.log(result);
+            // console.log(result);
+            openToast();
           } catch (error) {
             console.error("Error:", error);
           }

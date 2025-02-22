@@ -30,6 +30,7 @@ const Step2 = () => {
     router.push("/property_list/create/step1");
   };
 
+  
   return (
     <div >
       <Indicator step={2}/>
@@ -78,9 +79,6 @@ const Step2 = () => {
       <Button onClick={prevStep} className="w-1/3 border border-primary bg-white hover:bg-white text-black">Back</Button>
       <Button className="w-2/3 text-end" onClick={nextStep}>Next</Button>
       </div>
-    
-
-  
     </div>
     // <div>
     //   <h1>Step 2: Room Details</h1>

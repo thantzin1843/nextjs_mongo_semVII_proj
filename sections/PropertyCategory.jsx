@@ -21,7 +21,7 @@ function PropertyCategory() {
             <CarouselItem className="basis-1/4" key={index}>
                 <div className='w-full h-[300px] relative'>
                     <img src={c.image} alt={c.name} className='w-full h-full rounded-xl'/>
-                    <div class="font-bold absolute bottom-3 w-full bg-white text-primary p-3">{c.name}</div>
+                    <div class="font-bold absolute bottom-3 w-full  text-white bg-[#00000077] p-3">{c.name}</div>
                 </div>
 
             </CarouselItem>

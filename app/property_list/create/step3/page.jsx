@@ -3,49 +3,11 @@ import Indicator from "@/components/Property/Indicator";
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input";
+import { all_facilities, breakfastOptions } from "@/context/data";
 import { useFormContext } from "@/context/PropertyListContext";
 import { Cross, Delete } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
-const all_facilities = [
-"Restaurant",
-"Room service",
-"Bar",
-"24-hour front desk",
-"Sauna",
-"Fitness centre",
-"Garden",
-"Terrace",
-"Non-smoking rooms",
-"Airport shuttle",
-"Family rooms",
-"Spa and wellness centre",
-"Hot tub/Jacuzzi",
-"Free WiFi",
-"Air conditioning",
-"Water park",
-"Electric vehicle charging station",
-"Swimming pool",
-"Beach"
-]
-
-const breakfastOptions = [
-  "Continental",
-  "Buffet",
-  "Full English",
-  "American",
-  "À la Carte",
-  "Room Service",
-  "Vegetarian",
-  "Vegan",
-  "Gluten-Free",
-  "Organic",
-  "Japanese",
-  "Indian",
-  "French",
-  "Mediterranean"
-];
 
 
 export default function page(){
