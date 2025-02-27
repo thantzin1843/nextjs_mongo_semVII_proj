@@ -1,6 +1,6 @@
 'use client'
 import { Input } from '@/components/ui/input'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BedDouble, BedSingle } from "lucide-react";
 import {
     Select,
@@ -20,8 +20,8 @@ function page() {
     const router = useRouter();
 
     const params = useParams();
-    const property_id = params.property_id; 
-
+    const _id = params.id; 
+    const [property_id, setPid] = useState("");
     const [type, settype] = useState("");
     const [name, setname] = useState("");
     const [no_of_rooms, setno_of_rooms] = useState(1);
@@ -64,21 +64,48 @@ function page() {
         );
       }
 
-      const handleSaveRoom = async() =>{
-        
-        const loadData = {property_id,type,name,no_of_rooms,width,no_of_guests,smoking,outdoor_and_view,food,
-            private_bathroom,bathroom_items,amenities,description,price,twin,full,queen,king};
+      const fetchRoom = async () => {
+              const res = await fetch(`/api/room/edit?room_id=${_id}`);
+              const data = await res.json();
+            //   console.log(data?.room[0]);
+              setPid(data?.room[0]?.property_id);
+              settype(data?.room[0]?.type);
+              setname(data?.room[0]?.name);
+              setno_of_rooms(data?.room[0]?.no_of_rooms);
+              settwin(data?.room[0]?.twin);
+              setfull(data?.room[0]?.full);
+              setking(data?.room[0]?.king);
+              setqueen(data?.room[0]?.queen);
+              setPrivateBathroom(data?.room[0]?.private_bathroom);
+              setoutdoor_and_view(data?.room[0]?.outdoor_and_view);
+              setfood(data?.room[0]?.food);
+              setbathroom_items(data?.room[0]?.bathroom_items);
+              setamenities(data?.room[0]?.amenities);
+              setprice(data?.room[0]?.price);
+              setwidth(data?.room[0]?.width);
+              setno_of_guests(data?.room[0]?.no_of_guests);
+              setsmoking(data?.room[0]?.smoking);
+              setdescription(data?.room[0]?.description);
+          }
+          useEffect(()=>{
+            fetchRoom();
+          },[])
 
+      const handleUpdateRoom = async() =>{
+        
+        const loadData = {_id,property_id,type,name,no_of_rooms,width,no_of_guests,smoking,outdoor_and_view,food,
+            private_bathroom,bathroom_items,amenities,description,price,twin,full,queen,king};
+        console.log(loadData);
         try {
-            const response = await fetch("/api/room", {
+            const response = await fetch("/api/room/update", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify(loadData),
             });
         
             const result = await response.json();
-            console.log(result);
-            router.push(`/property_list/room/create/${result.roomId}/room_image`);
+            // console.log(result);
+            router.push(`/property_list/room/create/${_id}/room_image`);
 
           } catch (error) {
             console.error("Error:", error);
@@ -335,7 +362,7 @@ function page() {
 
                 </div>
             </div>
-            <Button onClick={handleSaveRoom} className="w-full mb-3">Continue</Button>
+            <Button onClick={handleUpdateRoom} className="w-full mb-3">Update and Continue</Button>
             {/* <Link className="w-full my-3 p-3" href={`/property_list/room/create/${property_id}/room_image`}>Continue</Link> */}
     </div>
   )

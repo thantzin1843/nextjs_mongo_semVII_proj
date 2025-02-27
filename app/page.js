@@ -7,17 +7,17 @@ import { doLogout } from "./actions";
 import DashboardRedirect from "@/components/ClientNavigation";
 import PropertyCategory from "@/sections/PropertyCategory";
 import Footer from "@/sections/Footer";
+import NextProgress from "next-progress";
 
 
 
 export default async function Home() {
   const session = await auth();
-
   return (
     session?.user?.role == null || session?.user?.role == 'user' ? (
       <div className="px-10">
       <Hero/>
-      <TrendDestination/>
+      {/* <TrendDestination/> */}
       <PropertyCategory/>
 
       <h1 className="text-3xl mt-[50px]">

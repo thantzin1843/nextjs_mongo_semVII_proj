@@ -14,6 +14,7 @@ export default function RoomImage() {
   const roomId = params.property_id;
   console.log("room id is"+roomId)
   const [img, setImg] = useState([]);
+  const [uploaded, setUploaded] = useState(false);
   const authenticator = async () => {
     try {
       const response = await fetch("http://localhost:3000/api/upload-auth");
@@ -69,7 +70,7 @@ export default function RoomImage() {
         body: JSON.stringify({img,roomId}),
       });
       const data = await response.json();
-      
+      setUploaded(true);
     } catch (error) {
       console.error("Request failed:", error);
     }
@@ -104,6 +105,11 @@ export default function RoomImage() {
   return (
     <div className="App">
       
+{/*         
+        {
+          uploaded ? <div className="mt-5 text-lg text-green-500">Images uploaded successfully!</div> : <div className='text-red-500 mt-5 text-lg'>Images are not uploaded yet!</div>
+        } */}
+    
       <ImageKitProvider publicKey={publicKey} urlEndpoint={urlEndpoint} authenticator={authenticator}>
 
          <div className='p-3 '>
@@ -119,7 +125,9 @@ export default function RoomImage() {
          </div>
 
       </ImageKitProvider>
-      {/* ...other SDK components added previously */}
+      
+      
+
       <div className='flex gap-5 flex-wrap'>
       {
         img?.map((image, index) => (

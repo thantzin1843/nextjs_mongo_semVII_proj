@@ -16,7 +16,7 @@ import { useState } from "react";
 
 export default function page(){
     
-     const { formData, updateFormData } = useFormContext();
+     const { formData, updateFormData,resetFormData } = useFormContext();
      const [selectedFunThings, setSelectedFunThings]= useState(formData.selectedFunThings || []);
      const [privateBathroom, setprivateBathroom]= useState(formData.privateBathroom || true);
      const [selectedBathroomItems, setselectedBathroomItems]= useState(formData.selectedBathroomItems || []);
@@ -59,15 +59,15 @@ export default function page(){
             prev.includes(item) ? prev.filter((payment) => payment !== item) : [...prev, item]
         );
       }
-    const openToast = () =>{
+    const openToast = (message) =>{
       toast({
-        title: "Property saved successfully",
+        title: message,
         description: "Friday, February 10, 2023 at 5:57 PM",
         bg:'bg-green-500 text-white'
         
       })
     }
-      const submitInfo = async () =>{
+      const getData = () =>{
         formData.selectedFunThings =selectedFunThings;
         formData.privateBathroom =privateBathroom;
         formData.selectedBathroomItems =selectedBathroomItems;
@@ -124,20 +124,44 @@ export default function page(){
               unit: formData.unit
             }
           }
-          // console.log(loadData);
-          try {
-            const response = await fetch("/api/property/save", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(loadData),
-            });
+          return loadData;
         
-            const result = await response.json();
-            // console.log(result);
-            openToast();
-          } catch (error) {
-            console.error("Error:", error);
-          }
+      }
+      const saveProperty = async () => {
+        const loadData = getData();
+        try {
+          const response = await fetch("/api/property/save", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(loadData),
+          });
+      
+          const result = await response.json();
+          // console.log(result);
+          openToast("Property saved successfully");
+          router.push(`/property_list/${localStorage.getItem("userId")}`);
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      }
+      const updateProperty = async () => {
+        const loadData = getData();
+        loadData._id = formData._id;
+        try {
+          const response = await fetch("/api/property/update", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(loadData),
+          });
+      
+          const result = await response.json();
+          console.log(result);
+          openToast("Property updated successfully");
+          resetFormData();
+          router.push(`/property_list/${localStorage.getItem("userId")}`);
+        } catch (error) {
+          console.error("Error:", error);
+        }
       }
 
 
@@ -250,9 +274,9 @@ export default function page(){
                   <Button onClick={prevStep} className="w-1/3 border border-primary bg-white hover:bg-white text-black">Back</Button>
                   {
                     formData.isEdit ? (
-                      <Button className="w-2/3 text-end" onClick={submitInfo}>Update</Button>
+                      <Button className="w-2/3 text-end" onClick={()=>updateProperty()}>Update</Button>
                     ):(
-                      <Button className="w-2/3 text-end" onClick={submitInfo}>Save Property</Button>
+                      <Button className="w-2/3 text-end" onClick={()=>saveProperty()}>Save Property</Button>
                     )
                   }
                   

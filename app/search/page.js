@@ -4,7 +4,7 @@ import SearchHotelForm from '@/components/SearchHotelForm'
 import { Checkbox } from '@/components/ui/checkbox';
 import { all_facilities, funThings, propertyAccessibility, propertyCategories } from '@/context/data';
 import { SortAsc, SortDesc, Star } from 'lucide-react';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     Select,
     SelectContent,
@@ -12,6 +12,8 @@ import {
     SelectTrigger,
     SelectValue,
   } from "@/components/ui/select"
+import { useRouter, useSearchParams } from 'next/navigation';
+import HotelCardOne from '@/components/HotelCardOne';
   
 
 export const StarRating = ({ count }) => {
@@ -26,20 +28,78 @@ export const StarRating = ({ count }) => {
     );
   };
 function page() {
-    const [showAll, setShowAll] = useState(false);
+    const router = useRouter()
+      
+    const searchParams = useSearchParams();
+    // const location = searchParams.get('location') || '';
+    // const checkin = searchParams.get('checkin') || '';
+    // const checkout = searchParams.get('checkout') || '';
+    // const no_of_guests = searchParams.get('no_of_guests') || '';
+    
+    // under is for test 
+    const [location, setLocation] = useState(searchParams.get('location') || 'Yangon');
+    const [checkin, setCheckin] = useState(searchParams.get('from') || '2023-12-01');
+    const [checkout, setCheckout] = useState(searchParams.get('to')||'2023-12-05');
+    const [noOfGuests, setNoOfGuests] = useState(searchParams.get('no_of_guests') || 1);
+    const [petAllowed, setPetAllowed] = useState(searchParams.get('pet')  );
 
-  // Determine which items to display based on the state
-    const categoriesToShow = showAll ? propertyCategories : propertyCategories.slice(0, 5);
+    const [categories, setCategories] = useState([]);
+    const [facilities, setFacilities] = useState([]);
+ 
+    const [rooms, setRooms] = useState([]);
 
-    const [showF, setShowF] = useState(false);
-    const facilitiesToShow = showF ? all_facilities : all_facilities.slice(0, 5);
+    const selectCategories = (item) =>{
+        setCategories((prev)=>
+            prev.includes(item) ? prev.filter((cate) => cate !== item) : [...prev, item]
+        );
+        // console.log(facilities);
+      }
+      const selectFacilities = (item) =>{
+        setFacilities((prev)=>
+            prev.includes(item) ? prev.filter((facility) => facility !== item) : [...prev, item]
+        );
+        // console.log(facilities);
+      }
 
-    const [showFun, setShowFun] = useState(false);
-    const funThingsToShow = showFun ? funThings : funThings.slice(0, 5);
+      const searchProperty = async () => {
+        const queryParams =  new URLSearchParams({
+            location, from:checkin, to:checkout,  no_of_guests: noOfGuests, // Number of guests filter
+            pet: petAllowed,
+        });
+        categories.forEach(category => {
+            queryParams.append('categories', category);
+        });
+        facilities.forEach((facility) => {
+            queryParams.append('facilities', facility);
+        });
 
-    const [showAcc, setShowAcc] = useState(false);
-    const accessibilityToShow = showAcc ? propertyAccessibility : propertyAccessibility.slice(0, 5);
+        console.log(queryParams.toString());
 
+        const response = await fetch(`/api/search?${queryParams.toString()}`,{method:'GET'});
+        const data = await response.json();
+        // console.log("Client available rooms ="+JSON.stringify(data));
+        console.log(data);
+        setRooms(data);
+
+      }
+      useEffect(()=>{
+        searchProperty();
+      },[categories,facilities])
+
+
+      const [showAll, setShowAll] = useState(false);
+      // Determine which items to display based on the state
+        const categoriesToShow = showAll ? propertyCategories : propertyCategories.slice(0, 5);
+    
+        const [showF, setShowF] = useState(false);
+        const facilitiesToShow = showF ? all_facilities : all_facilities.slice(0, 5);
+    
+        const [showFun, setShowFun] = useState(false);
+        const funThingsToShow = showFun ? funThings : funThings.slice(0, 5);
+    
+        const [showAcc, setShowAcc] = useState(false);
+        const accessibilityToShow = showAcc ? propertyAccessibility : propertyAccessibility.slice(0, 5);
+    
   return (
     <div className=''>
         <SearchHotelForm/>
@@ -60,8 +120,7 @@ function page() {
                                     // const checked = selectedFunThings.includes(item);
                                 return (
                                     <div className="flex items-center space-x-2 mt-2 " key={index}>
-                                    {/* <Checkbox id={item} onClick={()=>selectFacilities(item)} checked={checked}/> */}
-                                    <Checkbox id={item.name}/>
+                                    <Checkbox id={item.name} onClick={()=>selectCategories(item.name)}/>
                                     <label
                                         htmlFor={item.name}
                                         className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -111,8 +170,7 @@ function page() {
                                     // const checked = selectedFunThings.includes(item);
                                 return (
                                     <div className="flex items-center space-x-2 mt-2 " key={index}>
-                                    {/* <Checkbox id={item} onClick={()=>selectFacilities(item)} checked={checked}/> */}
-                                    <Checkbox id={item}/>
+                                    <Checkbox id={item} onClick={()=>selectFacilities(item)}/>
                                     <label
                                         htmlFor={item}
                                         className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -267,9 +325,14 @@ function page() {
         </div>
 
             {/* hotel card */}
-            <HotelCard/>
-            <HotelCard/>
-            <HotelCard/>
+            {
+                rooms?.length > 0 && (
+                    rooms?.map((room,index)=>(
+                        <HotelCardOne room={room} key={index}/>
+                    ))
+                )
+            }
+
         </div>
 
         </div>

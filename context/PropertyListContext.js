@@ -10,8 +10,12 @@ export const FormProvider = ({ children }) => {
     setFormData((prev) => ({ ...prev, ...newData }));
   };
 
+  const resetFormData = () => {
+    setFormData({}); // Reset to an empty object
+  };
+
   return (
-    <FormContext.Provider value={{ formData, updateFormData }}>
+    <FormContext.Provider value={{ formData, updateFormData,resetFormData }}>
       {children}
     </FormContext.Provider>
   );

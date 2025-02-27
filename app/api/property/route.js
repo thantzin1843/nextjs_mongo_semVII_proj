@@ -1,5 +1,6 @@
 import { connectToDB } from "@/lib/db"
 import PropertyModel from "@/models/PropertyModel";
+import RoomModel from "@/models/RoomModel";
 import { NextResponse } from "next/server";
 
 export const GET = async (req) =>{
@@ -18,3 +19,13 @@ export const GET = async (req) =>{
         })
     }
 }
+
+export async function DELETE(request) {
+    const id = request.nextUrl.searchParams.get("id");
+    await connectToDB();
+    await PropertyModel.findByIdAndDelete(id);
+    await RoomModel.deleteMany({
+        property_id: id, // Assuming property_id is stored as a string in the room collection
+    });
+    return NextResponse.json({ message: "Property deleted" }, { status: 200 });
+  }

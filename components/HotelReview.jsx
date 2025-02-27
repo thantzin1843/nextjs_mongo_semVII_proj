@@ -1,0 +1,92 @@
+import React, { useState } from 'react'
+
+import { Card, CardContent } from "@/components/ui/card"
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
+import {
+    Dialog,
+    DialogContent,
+    DialogTitle,
+    DialogTrigger,
+  } from "@/components/ui/dialog"
+import { propertyCategories } from '@/context/data'
+import { Edit, Paperclip, Star } from 'lucide-react'
+import { Button } from './ui/button'
+
+function HotelReview() {
+     const [starRating, setStarRating] = useState("");
+  return (
+    <div className='mt-[70px] mb-[50px]'>
+            <div className='text-xl mb-5 font-bold'>Read Reviews</div>
+    
+           <Carousel className="mx-auto w-[90%]">
+            <CarouselContent>
+    {
+        propertyCategories.map((c,index)=>(
+                <CarouselItem className="basis-1/4" key={index}>
+                    <div className='w-full h-[300px] relative border border-gray-300 p-3'>
+                        <div className="flex ">
+                            <div className='w-[40px] h-[40px] rounded-full overflow-hidden'><img className='w-full h-full' src={c.image}/></div>
+                            <div className='ml-[10px] w-full'>
+                                <div className='text-sm text-gray-500'>{c.name}</div>
+                                <div className='text-sm text-gray-600'>ex@gmail.com</div>
+                            </div>
+                        </div>
+                        <div className='mt-2'>
+                        {Array.from({ length: 3 }, (_, index) => (
+            
+                                <span key={index} style={{ fontSize: '15px', color: 'gold' }}>⭐</span>
+                            ))}
+                        </div>
+
+                        <div className='border border-gray-300 rounded-md p-2 text-xs mt-3'>
+                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Suscipit eligendi quae voluptas ducimus iusto optio autem ad commodi, ex similique. Deserunt quo sed perspiciatis officia, debitis cum quaerat est omnis?
+                        </div>
+                    </div>
+    
+                </CarouselItem>
+        ))
+    }
+                
+                
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+            </Carousel>
+    
+            <div className='mt-3 '>
+                    <Dialog>
+                    <DialogTrigger asChild>
+                        <Button className="">Write Reviews<Edit className='inline ms-2 text-xs'/> </Button>
+                    </DialogTrigger>
+                    <DialogContent className="w-1/3 h-[500px] overflow-y-auto">
+                    <DialogTitle>
+                    Write Review Here 
+                    <div className="flex gap-3 mt-3 mb-3">
+                        {
+                        [1, 2, 3, 4, 5].map((star) => (
+                            <Star key={star} onClick={()=>setStarRating(star)} className={`h-7 w-7 ${starRating >= star? "text-yellow-500" : "text-gray-300"}`} />
+                        ))
+                        }
+                    
+                    </div>
+                    <textarea className='border border-primary rounded-md p-2 ' rows={5} cols={30}>
+
+                    </textarea><br />
+                    <Button className="mt-3" onClick={()=>console.log('save review')}>Submit Review</Button>
+                    </DialogTitle>
+                    </DialogContent>
+                    </Dialog>
+            </div>
+        </div>
+  )
+}
+
+export default HotelReview
+
+

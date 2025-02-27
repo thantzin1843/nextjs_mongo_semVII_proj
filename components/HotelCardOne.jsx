@@ -9,29 +9,25 @@ import {
 import { propertyCategories } from '@/context/data'
 import { Card, CardContent } from './ui/card'
 import { StarRating } from '@/app/search/page'
-import { Check, Heart, LocateFixed, LocateIcon, MapPin, MessageSquare, PartyPopper, Utensils, Wifi } from 'lucide-react'
+import { AlertCircle, BadgeDollarSign, Check, DollarSign, Heart, LocateFixed, LocateIcon, MapPin, MessageSquare, PartyPopper, Utensils, Wifi } from 'lucide-react'
 import { Button } from './ui/button'
 import Link from 'next/link'
 
-function HotelCard({property}) {
-    const {images} = property;
-    const imageNames = images[0];
-
+function HotelCardOne({room}) {
   return (
     <div className='w-full shadow-sm border border-gray-300 rounded-md p-3 flex mt-5 hover:border-primary hover:shadow-lg'>
-        <div className="w-1/3">
+        <div className="w-1/3 flex items-center">
                         <Carousel className="w-full max-w-xs">
                         <CarouselContent>
                             { 
-                            
-                            imageNames?.map((c,index)=>(
+                            room?.images?.length >0 && 
+                            room?.images?.map((c,index)=>(
                             <CarouselItem key={index}>
         
                                 <Card>
                                     <CardContent className="w-full bg-red-500">
-                                    <div className="w-full h-[190px]">
+                                    <div className="w-full h-[260px]">
                                         <img src={process.env.NEXT_PUBLIC_URL_ENDPOINT+c.name} className='w-full h-full'/>
-                                        <div>{c.name}</div>
                                     </div>
                                    
                                     </CardContent>
@@ -46,24 +42,38 @@ function HotelCard({property}) {
                         </Carousel>
         </div>
         <div className="w-1/3 ps-2">
-         <div className='font-bold text-xl'>{property.property_name}</div>
+         <div className='font-bold text-xl'>{room?.property_id?.property_name}'s {room?.name}</div>
 
          <div className='flex items-center flex-wrap '>
-         <StarRating count={property.star_rating} /> &nbsp;
-         <div className='text-xs text-blue-500'> <MapPin className='inline '/> {property.location.address},{property.location.city}</div>
+         <StarRating count={room?.property_id?.star_rating} /> &nbsp;
+         <div className='text-xs text-blue-500'> <MapPin className='inline '/> {room?.property_id?.location?.address},{room?.property_id?.location?.city}</div>
          </div>
 
          <div className='text-sm text-primary '>
-            {property.from_city.distance} {property.from_city.unit || 'km'} from downtown
+            {room?.property_id?.from_city?.distance} {room?.property_id?.from_city?.unit || 'km'} from downtown
          </div>
 
          <div>
-            This property offers:
+            Property offers:
             <div className="flex flex-wrap gap-1 mt-2">
             {
-                property.facilities.slice(0,5).map((item,index)=>(
+                room?.property_id?.facilities.slice(0,3).map((item,index)=>(
                     <div className='bg-primary text-white rounded-md py-1  px-1  text-xs flex items-center' key={index}>
                                 {item}
+                    </div>
+                ))
+            }
+            </div>
+            
+         </div>
+
+         <div>
+            Room offers:
+            <div className="flex flex-wrap gap-1 mt-2">
+            {
+                room?.amenities?.slice(0,3).map((item,index)=>(
+                    <div className='bg-primary text-white rounded-md py-1  px-1  text-xs flex items-center' key={index}>
+                        {item}
                     </div>
                 ))
             }
@@ -77,8 +87,10 @@ function HotelCard({property}) {
             <Heart/>
         </div>
          <div>
-         <div className='text-end mb-3 underline'><MessageSquare className='inline'/> 5 reviews</div>
-         <Link href={`/hotel/${property._id}`} className='p-2 bg-primary text-white'>Show prices</Link>
+         <div className='text-end flex items-center text-red-500 gap-1 mb-1'><AlertCircle className='inline'/> {room?.availableRoomsCount} Rooms Left</div>
+         <div className='text-end flex items-center  gap-1 mb-3'> ${room?.price} per night</div>
+         {/* <div className='text-end mb-3 underline'><MessageSquare className='inline'/> 5 reviews</div> */}
+         <Link href={`/hotel/${room?.property_id?._id}`} className='p-2 bg-primary text-white'>Show prices</Link>
          </div>
         </div>
                        
@@ -86,4 +98,4 @@ function HotelCard({property}) {
   )
 }
 
-export default HotelCard
+export default HotelCardOne

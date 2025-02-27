@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useFormContext } from "@/context/PropertyListContext";
 import { CircleCheckBig } from "lucide-react";
 import next from "next";
+import NextNProgress from 'nextjs-progressbar';
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -28,15 +29,15 @@ const Step1 = () => {
   };
 
   const propertyCategories = [
-    { name: "hotel", description: "Accommodation for travelers often offering restaurants, meeting rooms, and other guest services." },
-    { name: "guest_house", description: "A private house offering lodging and sometimes meals to paying guests." },
-    { name: "bed_and_breakfast", description: "A small lodging establishment offering overnight stays and breakfast in a cozy setting." },
-    { name: "homestay", description: "A stay in a private home, where guests can experience local culture and hospitality." },
-    { name: "hostel", description: "Budget-friendly shared accommodation with dormitory-style rooms, ideal for backpackers." },
-    { name: "aparthotel", description: "A blend of hotel and apartment, offering self-catering facilities and hotel-like services." },
-    { name: "capsule_hotel", description: "Compact, pod-style accommodations, often found in urban areas for short stays." },
-    { name: "country_hotel", description: "A hotel located in a rural setting, offering a peaceful retreat with scenic surroundings." },
-    { name: "farm_stay", description: "Accommodation on a working farm, allowing guests to engage in farming activities and enjoy nature." }
+    { name: "Hotel", description: "Accommodation for travelers often offering restaurants, meeting rooms, and other guest services." },
+    { name: "Guest House", description: "A private house offering lodging and sometimes meals to paying guests." },
+    { name: "Bed and Breakfast", description: "A small lodging establishment offering overnight stays and breakfast in a cozy setting." },
+    { name: "Homestay", description: "A stay in a private home, where guests can experience local culture and hospitality." },
+    { name: "Hostel", description: "Budget-friendly shared accommodation with dormitory-style rooms, ideal for backpackers." },
+    { name: "Aparthotel", description: "A blend of hotel and apartment, offering self-catering facilities and hotel-like services." },
+    { name: "Capsule Hotel", description: "Compact, pod-style accommodations, often found in urban areas for short stays." },
+    { name: "Country Hotel", description: "A hotel located in a rural setting, offering a peaceful retreat with scenic surroundings." },
+    { name: "Farm Stay", description: "Accommodation on a working farm, allowing guests to engage in farming activities and enjoy nature." }
   ];
 
   return (
@@ -57,7 +58,7 @@ const Step1 = () => {
         >
         {propertyCategory == name && <CircleCheckBig className="absolute text-primary bg-white rounded-full text-md" style={{top:"-10px",right:0}}/>}
         <div className="text-sm font-bold mb-3">
-          {name.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
+          {name}
         </div>
         <div className="text-xs">{description}</div>
       </div>

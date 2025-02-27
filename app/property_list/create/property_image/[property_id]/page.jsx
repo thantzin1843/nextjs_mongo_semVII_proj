@@ -13,6 +13,7 @@ export default function Home() {
   const params = useParams();
   const property_id = params.property_id;
   const [img, setImg] = useState([]);
+  const [uploaded,setUploaded] = useState(false);
   const authenticator = async () => {
     try {
       const response = await fetch("http://localhost:3000/api/upload-auth");
@@ -22,8 +23,10 @@ export default function Home() {
         throw new Error(`Request failed with status ${response.status}: ${errorText}`);
       }
   
+      
       const data = await response.json();
       const { signature, expire, token } = data;
+      console.log(expire)
       return { signature, expire, token };
     } catch (error) {
       throw new Error(`Authentication request failed: ${error.message}`);
@@ -65,6 +68,7 @@ export default function Home() {
         },
         body: JSON.stringify({img,property_id}),
       });
+      setUploaded(true);
     } catch (error) {
       console.error("Request failed:", error);
     }
@@ -97,8 +101,10 @@ export default function Home() {
   }
 
   return (
-    <div className="App">
-      
+    <div className='App'>
+       {
+          uploaded ? <div className="mt-5 text-lg text-green-500">Images uploaded successfully!</div> : <div className='text-red-500 mt-5 text-lg'>Images are not uploaded yet!</div>
+        }
       <ImageKitProvider publicKey={publicKey} urlEndpoint={urlEndpoint} authenticator={authenticator}>
 
          <div className='p-3 '>
@@ -114,7 +120,10 @@ export default function Home() {
          </div>
 
       </ImageKitProvider>
-      {/* ...other SDK components added previously */}
+
+      {
+
+      }
       <div className='flex gap-5 flex-wrap'>
       {
         img?.map((image, index) => (
@@ -124,7 +133,7 @@ export default function Home() {
           </div>
         ))
       }
-      {/* <IKImage urlEndpoint={urlEndpoint} path={img.name} width={200} height={200} alt="Alt text" /> */}
+
       </div>
     </div>
   );

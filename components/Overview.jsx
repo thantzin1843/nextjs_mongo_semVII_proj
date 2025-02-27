@@ -1,13 +1,13 @@
 import { Milestone } from 'lucide-react'
 import React from 'react'
 
-function Overview() {
+function Overview({name,property}) {
   return (
     <div>
-        <div className="text-2xl">The Westin Hapuna Beach Resort</div>
-        <div className="text-sm text-primary "><Milestone className='inline' size={20}/> 7 km from the center of city</div>
+        <div className="text-2xl">{name}</div>
+        <div className="text-sm text-primary "><Milestone className='inline' size={20}/> {property?.from_city?.distance} {property?.from_city?.unit || 'km'} from the center of city</div>
         <div>
-            {Array.from({ length: 5 }, (_, index) => (
+            {Array.from({ length: property?.star_rating }, (_, index) => (
             
             <span key={index} style={{ fontSize: '15px', color: 'gold' }}>⭐</span>
           ))}
@@ -20,10 +20,10 @@ At the hotel, every room comes with a closet. Complete with a private bathroom e
 
 Musée de l'Orangerie is 1.8 miles from the accommodation, while Tuileries Garden is 2.1 miles away. Paris - Orly Airport is 8.7 miles from the property.
 
-Couples in particular like the wonderful location – they rated it 9.1 for a two-person trip.
+Couples in particular like the wonderful location – {property?.location?.mapLink}
         </div>
         <div className='p-2'>
-            <img src="https://i.ibb.co/c65v2q2/overview.jpg" alt="overview" className="w-full h-64 object-cover" />
+        <iframe src={property?.location?.mapLink} width="200" height="200" allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
         </div>
         </div>
         

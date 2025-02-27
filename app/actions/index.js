@@ -1,5 +1,5 @@
 'use server'
-import { signIn, signOut } from "@/auth";
+import { auth, signIn, signOut } from "@/auth";
 
 export async function doLogout() {
   await signOut({ redirectTo: "/" });
@@ -19,3 +19,10 @@ export const doCredentialLogin = async(formData) =>{
 }
 
 // tapascript
+export const getUserId = async () => {
+  const session = await auth();
+  if (!session || !session.user) {
+    throw new Error('User not authenticated');
+  }
+  return { data: { _id: session.user._id } };
+}

@@ -19,8 +19,13 @@ const RoomSchema = new mongoose.Schema({
     amenities:[String],
     description: String,
     price: Number,
-    // images: [String]
+    availability:[
+        {
+            from:Date,to:Date,no_of_rooms_reserved:Number
+        }
+    ]
 },{ timestamps: true })
 
-const RoomModel = mongoose.models?.Room || mongoose.model("Room",RoomSchema);
+const RoomModel =mongoose.models?.Room|| mongoose.model("Room",RoomSchema);
+
 export default RoomModel;

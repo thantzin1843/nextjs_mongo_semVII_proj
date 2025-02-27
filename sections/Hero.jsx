@@ -3,6 +3,7 @@ import SearchHotelForm from '@/components/SearchHotelForm'
 import React from 'react'
 
 function Hero() {
+
   return (
    <>
      <Navbar/>
@@ -21,7 +22,7 @@ function Hero() {
               </div>
           </div>
 
-          <SearchHotelForm/>
+          <SearchHotelForm />
 
           
       </div>
