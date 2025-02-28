@@ -12,8 +12,17 @@ import { StarRating } from '@/app/search/page'
 import { AlertCircle, BadgeDollarSign, Check, DollarSign, Heart, LocateFixed, LocateIcon, MapPin, MessageSquare, PartyPopper, Utensils, Wifi } from 'lucide-react'
 import { Button } from './ui/button'
 import Link from 'next/link'
+import { useRoomDetailContext } from '@/context/RoomDetailContext'
+import { useRouter } from 'next/navigation'
 
 function HotelCardOne({room}) {
+    const {roomDetail, updateRoomDetail} = useRoomDetailContext();
+    const router = useRouter();
+    const handleRoomDetail = (room) =>{
+        console.log(room)
+        updateRoomDetail(room)
+        router.push(`/room/detail`)
+    }
   return (
     <div className='w-full shadow-sm border border-gray-300 rounded-md p-3 flex mt-5 hover:border-primary hover:shadow-lg'>
         <div className="w-1/3 flex items-center">
@@ -90,7 +99,7 @@ function HotelCardOne({room}) {
          <div className='text-end flex items-center text-red-500 gap-1 mb-1'><AlertCircle className='inline'/> {room?.availableRoomsCount} Rooms Left</div>
          <div className='text-end flex items-center  gap-1 mb-3'> ${room?.price} per night</div>
          {/* <div className='text-end mb-3 underline'><MessageSquare className='inline'/> 5 reviews</div> */}
-         <Link href={`/hotel/${room?.property_id?._id}`} className='p-2 bg-primary text-white'>Show prices</Link>
+         <Button onClick={()=>handleRoomDetail(room)} className='p-2 bg-primary text-white'>Details</Button>
          </div>
         </div>
                        

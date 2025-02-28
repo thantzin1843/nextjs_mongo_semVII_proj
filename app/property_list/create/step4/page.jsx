@@ -140,6 +140,7 @@ export default function page(){
           // console.log(result);
           openToast("Property saved successfully");
           router.push(`/property_list/${localStorage.getItem("userId")}`);
+          resetFormData();
         } catch (error) {
           console.error("Error:", error);
         }

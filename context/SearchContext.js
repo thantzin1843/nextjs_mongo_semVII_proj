@@ -1,20 +1,20 @@
-'use client'
-import { createContext, useState, useContext } from "react";
+// 'use client'
+// import { createContext, useState, useContext } from "react";
 
-const SearchContext = createContext();
+// const SearchContext = createContext();
 
-export const SearchFormProvider = ({ children }) => {
-  const [searchFormData, setSearchFormData] = useState({});
+// export const SearchFormProvider = ({ children }) => {
+//   const [searchFormData, setSearchFormData] = useState({});
 
-  const updateSearchFormData = (newData) => {
-    setSearchFormData((prev) => ({ ...prev, ...newData }));
-  };
+//   const updateSearchFormData = (newData) => {
+//     setSearchFormData((prev) => ({ ...prev, ...newData }));
+//   };
 
-  return (
-    <SearchContext.Provider value={{ searchFormData, updateSearchFormData }}>
-      {children}
-    </SearchContext.Provider>
-  );
-};
+//   return (
+//     <SearchContext.Provider value={{ searchFormData, updateSearchFormData }}>
+//       {children}
+//     </SearchContext.Provider>
+//   );
+// };
 
-export const useSearchFormContext = () => useContext(SearchContext);
+// export const useSearchFormContext = () => useContext(SearchContext);

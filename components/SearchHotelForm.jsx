@@ -28,13 +28,13 @@ function SearchHotelForm() {
     const checkin = new Date(date.from)
     const checkout = new Date(date.to)
     const no_of_guests = adult + child;
-    // const queryParams = new URLSearchParams({
-    //   location,adult,child,room,pet,checkin,checkout
-    // }).toString();
+
     const queryParams = new URLSearchParams({
       location,from:checkin,to:checkout,no_of_guests,pet
     }).toString();
     window.location.href = `/search?${queryParams}`;
+    // router.push(`/search?${queryParams}`);
+
   }
   return (
     <div className='w-full'>
@@ -86,7 +86,7 @@ function SearchHotelForm() {
 
            
            <button className='bg-primary px-10 text-white rounded-lg' onClick={handleSearch}>
-           <SearchIcon className='inline ' /> Search
+           <SearchIcon className='inline' /> Search
           </button>
         </div>
     </div>

@@ -17,9 +17,44 @@ import {
 import { propertyCategories } from '@/context/data'
 import { Edit, Paperclip, Star } from 'lucide-react'
 import { Button } from './ui/button'
+import { getUserId } from '@/app/actions'
 
-function HotelReview() {
-     const [starRating, setStarRating] = useState("");
+function HotelReview({userId, property_id }) {
+     
+     const [starRating, setStarRating] = useState(1);
+     const [message, setMessage] = useState("");
+
+     const handleTextArea = (message)=>{
+        if(message.length > 100){
+            return "Maximum 100 characters allowed."
+        }
+        setMessage(message)
+     }
+
+     const saveReview = async ()=>{
+        const loadData = {
+            userId,
+            property_id,
+            starRating,
+            message,
+        }
+        console.log(loadData)
+
+         const response = await fetch("http://localhost:3000/api/review/add",{
+             method:"POST",
+             headers:{
+                 "Content-Type": "application/json",
+             },
+             body: JSON.stringify(loadData)
+         })
+         if(response.ok){
+             alert("Review saved successfully.")
+             setStarRating("")
+             setMessage("")
+         }else{
+             alert("Failed to save review.")
+         }
+     }
   return (
     <div className='mt-[70px] mb-[50px]'>
             <div className='text-xl mb-5 font-bold'>Read Reviews</div>
@@ -75,10 +110,10 @@ function HotelReview() {
                         }
                     
                     </div>
-                    <textarea className='border border-primary rounded-md p-2 ' rows={5} cols={30}>
+                    <textarea className='border border-primary rounded-md p-2 ' rows={5} cols={30} onChange={(e)=>handleTextArea(e.target.value)}>
 
                     </textarea><br />
-                    <Button className="mt-3" onClick={()=>console.log('save review')}>Submit Review</Button>
+                    <Button className="mt-3" onClick={()=>saveReview()}>Submit Review</Button>
                     </DialogTitle>
                     </DialogContent>
                     </Dialog>

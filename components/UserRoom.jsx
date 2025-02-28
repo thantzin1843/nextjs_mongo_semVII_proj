@@ -1,7 +1,7 @@
 'use client'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react';
-import { ArrowRightCircle, BathIcon, Bed, BedDouble, Building, Check, Cigarette, ExternalLinkIcon, Hotel, Images, Mountain, Utensils } from 'lucide-react';
+import { AlertCircle, ArrowRightCircle, BathIcon, Bed, BedDouble, Building, Check, Cigarette, ExternalLinkIcon, Hotel, Images, Mountain, Utensils } from 'lucide-react';
 import {
     Carousel,
     CarouselContent,
@@ -24,16 +24,22 @@ import { getUserId } from '@/app/actions';
 import Link from 'next/link';
 
 function UserRoom({room,images}) {
-    // const handleRoomReserve = async() =>{
-    //     const userId = await getUserId().then(res=>res.data._id);  
+    const [roomImages,seRoomImages] = useState([]);
 
-    // }
+    const fetchRoomImages = async (roomId) => {
+        const response = await fetch(`/api/room/images?roomId=${roomId}`);
+        const data = await response.json();
+        seRoomImages(data[0]?.images);
+    }
+    useEffect(()=>{
+        fetchRoomImages(room._id)
+    },[])
   return (
     <div className='w-1/4 p-1'>
                 <div className="border border-primary shadow rounded-lg w-full overflow-hidden relative">
                 <Carousel className="w-full">
                 <CarouselContent>
-                    { images?.map((c,index)=>(
+                    { roomImages?.map((c,index)=>(
                     <CarouselItem key={index}>
 
                         <Card>
@@ -53,7 +59,7 @@ function UserRoom({room,images}) {
                 </Carousel>
 
                             <div className="absolute top-1 left-1 text-white bg-[#00000088] p-1 rounded">
-                               <Images className='me-2 inline'/>{images?.length}
+                               <Images className='me-2 inline'/>{roomImages?.length}
                             </div>
                     <div className="p-3 flex flex-col justify-between  min-h-[350px]">
                    <div>
@@ -164,6 +170,10 @@ function UserRoom({room,images}) {
                         Lorem ipsum dolor sit amet consectetur, adipisicing elit. Assumenda veritatis eius adipisci odio. Vero velit ea dolorem rerum? Ad iusto sed, corrupti facilis hic quam illo nesciunt ab excepturi ex?
                         {room?.description} 
                     </div>
+               
+                    <div className='flex text-red-500 '>
+                        <AlertCircle />{room?.availableRoomsCount} rooms left
+                    </div>
                     <div>
                         {room?.price} $ per night
                     </div>
@@ -174,7 +184,11 @@ function UserRoom({room,images}) {
                     </Dialog>
                     </div>
                     </div>
+                    <div className='flex text-red-500 '>
+                        <AlertCircle />{room?.availableRoomsCount} rooms left
+                    </div>
                     <div className='flex justify-between '>
+
                         <div><span className='font-bold text-xl'>${room?.price}</span> per night</div>
                         <div>
                           <Link href={`/room/reserve/${room?._id}`} className='bg-primary py-2 px-3 rounded-md text-white'>Reserve</Link>

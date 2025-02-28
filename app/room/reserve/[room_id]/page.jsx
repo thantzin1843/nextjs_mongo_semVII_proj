@@ -2,6 +2,7 @@
 import { getUserId } from '@/app/actions';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { DoorClosed, PersonStanding } from 'lucide-react';
 import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
@@ -57,15 +58,38 @@ function page() {
     }
 
   return (
-    <div>
-        <div className="w-1/2 col-span-1 shadow-lg border border-primary p-5 mx-auto rounded-lg">
-            <div className='border border-primary p-2 rounded-lg'>
-              <h1 className='text-primary text-xl '>Room Informations</h1>
-              <h2 className="text-xl font-bold">{room?.name}</h2>
-              <p className="text-md">Price per night: ${room?.price}</p>
-              <p className="text-md">Total Price for ${nights} nights booking: ${room?.price * nights}</p>
-              <p className="text-md">Max Guests for this room: {room?.no_of_guests}</p>
+    <div className='flex p-5 '>
+        <div className='border w-1/3 me-3 border-primary p-3 rounded-md '>
+          <div className='text-3xl font-semibold'>Novotel</div>
+          <div className='text-xl my-3'><DoorClosed className='inline me-2'/> Single Room</div>
+
+          <div className='flex w-full gap-2 my-2'>
+            <div className="w-1/2 border border-primary rounded-md p-2 ">
+            <div>Check-in Date</div>
+            <div>2024-1-12</div>
             </div>
+
+            <div className="w-1/2 border border-primary rounded-md p-2 ">
+            <div>Check-out Date</div>
+            <div>2024-1-12</div>
+            </div>
+
+
+           </div>
+
+           <div><span className='my-2 font-bold text-xl'>2</span> Guests can stay in this room.</div>
+
+           <div className='my-2 font-bold text-red-500 text-xl '>Only 6 rooms are available.</div>
+
+            <div className='my-2 text-xl'>No of Rooms booked - 8</div>
+           <div className='my-2 text-xl'>
+
+            Total Cost - $400 for 4 nights <span> ($100 per night) </span>
+           </div>
+        </div>
+
+        <div className="w-2/3 mt-3  shadow-lg border border-primary p-5 mx-auto rounded-lg">
+           
 
             <label htmlFor="" className='text-sm'>Contact Email</label>
              <Input type="text" placeholder="example@gmail.com"  className="mb-5 border border-primary " value={email} onChange={(e)=>setemail(e.target.value)}/>   

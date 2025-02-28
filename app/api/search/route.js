@@ -6,6 +6,9 @@ import RoomModel from '@/models/RoomModel';
 import { NextResponse } from 'next/server';
 
 export async function GET(req) {
+  const headers = new Headers();
+  headers.set('Cache-Control', 'no-store, max-age=0');
+  
   try {
     const { searchParams } = new URL(req.url);
     const from = searchParams.get("from") || '';
@@ -16,9 +19,6 @@ export async function GET(req) {
 
     const categoryArray = searchParams.getAll('categories') ; // Filter by property categories (comma-separated list)
     const facilitiesArray = searchParams.getAll('facilities') ;
-
-
-    console.log(categoryArray, facilitiesArray);
 
     if (!from || !to) {
       return NextResponse.json(
@@ -41,7 +41,6 @@ export async function GET(req) {
     const fromDate = formatDate(from);
     const toDate = formatDate(to);
     
-
     const rooms = await RoomModel.find().populate('property_id').exec();
 
     const availableRooms = rooms.map((room) => {
@@ -51,7 +50,6 @@ export async function GET(req) {
       room.availability.forEach((availability) => {
         const reservedFrom = new Date(availability.from);
         const reservedTo = new Date(availability.to);
-        console.log("Reserve hahahhahahha"+reservedFrom+""+reservedTo)
         // Check for overlapping dates
         if (
           (fromDate < reservedTo && toDate > reservedFrom) || // Overlapping condition
@@ -72,8 +70,10 @@ export async function GET(req) {
     }).filter((room) => {
       // Apply filters
       const property = room.property_id;
-
+      console.log("location in romm")
+      console.log(property)
       if (location && !property.location.city.toLowerCase().includes(location.toLowerCase())) {
+
         return false;
       }
 
@@ -83,8 +83,10 @@ export async function GET(req) {
       }
 
       // Filter by pet_allowed
-      if (petAllowed && property.house_rules.pet_allowed !== (petAllowed === 'true')) {
-        return false;
+      if (JSON.parse(petAllowed)) {
+        if(property.house_rules.pet_allowed === false){
+          return false;
+        } 
       }
 
       if (categoryArray.length > 0 && !categoryArray.includes(property.property_category)) {

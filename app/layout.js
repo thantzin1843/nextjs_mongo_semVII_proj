@@ -2,8 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import Nav from "@/components/Property/Nav";
-import { SessionProvider } from "next-auth/react";
-import { SearchFormProvider } from "@/context/SearchContext";
+import { RoomDetailProvider } from "@/context/RoomDetailContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,11 +25,11 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased `}
       >
-        <SearchFormProvider>
+          <RoomDetailProvider>
           <Nav/>
           {children}
           <Toaster/>
-        </SearchFormProvider>
+          </RoomDetailProvider>
       </body>
     </html>
   );

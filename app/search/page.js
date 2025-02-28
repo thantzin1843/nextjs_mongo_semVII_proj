@@ -31,18 +31,11 @@ function page() {
     const router = useRouter()
       
     const searchParams = useSearchParams();
-    // const location = searchParams.get('location') || '';
-    // const checkin = searchParams.get('checkin') || '';
-    // const checkout = searchParams.get('checkout') || '';
-    // const no_of_guests = searchParams.get('no_of_guests') || '';
-    
-    // under is for test 
-    const [location, setLocation] = useState(searchParams.get('location') || 'Yangon');
-    const [checkin, setCheckin] = useState(searchParams.get('from') || '2023-12-01');
-    const [checkout, setCheckout] = useState(searchParams.get('to')||'2023-12-05');
-    const [noOfGuests, setNoOfGuests] = useState(searchParams.get('no_of_guests') || 1);
-    const [petAllowed, setPetAllowed] = useState(searchParams.get('pet')  );
-
+    const location = searchParams.get('location') || '';
+    const checkin = searchParams.get('from') || '';
+    const checkout = searchParams.get('to') || '';
+    const noOfGuests = searchParams.get('no_of_guests') || '';
+    const petAllowed = searchParams.get('pet') || false;
     const [categories, setCategories] = useState([]);
     const [facilities, setFacilities] = useState([]);
  
@@ -73,18 +66,18 @@ function page() {
             queryParams.append('facilities', facility);
         });
 
-        console.log(queryParams.toString());
+        console.log("before fetching in /search page query"+queryParams.toString());
 
         const response = await fetch(`/api/search?${queryParams.toString()}`,{method:'GET'});
         const data = await response.json();
         // console.log("Client available rooms ="+JSON.stringify(data));
         console.log(data);
         setRooms(data);
-
       }
+      
       useEffect(()=>{
         searchProperty();
-      },[categories,facilities])
+      },[facilities,categories])
 
 
       const [showAll, setShowAll] = useState(false);
