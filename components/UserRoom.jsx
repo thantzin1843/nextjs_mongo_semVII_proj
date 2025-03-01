@@ -22,8 +22,10 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { getUserId } from '@/app/actions';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 function UserRoom({room,images}) {
+    const router = useRouter();
     const [roomImages,seRoomImages] = useState([]);
 
     const fetchRoomImages = async (roomId) => {
@@ -34,6 +36,10 @@ function UserRoom({room,images}) {
     useEffect(()=>{
         fetchRoomImages(room._id)
     },[])
+
+    const handleReserve =()=>{
+        router.push(`/room/reserve/${room._id}`)
+    }
   return (
     <div className='w-1/4 p-1'>
                 <div className="border border-primary shadow rounded-lg w-full overflow-hidden relative">
@@ -191,7 +197,7 @@ function UserRoom({room,images}) {
 
                         <div><span className='font-bold text-xl'>${room?.price}</span> per night</div>
                         <div>
-                          <Link href={`/room/reserve/${room?._id}`} className='bg-primary py-2 px-3 rounded-md text-white'>Reserve</Link>
+                          <Button onClick={()=>handleReserve()} className='bg-primary py-2 px-3 rounded-md text-white'>Reserve</Button>
                         </div>
                     </div>
                     </div>

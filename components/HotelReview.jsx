@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Card, CardContent } from "@/components/ui/card"
 import {
@@ -15,14 +15,18 @@ import {
     DialogTrigger,
   } from "@/components/ui/dialog"
 import { propertyCategories } from '@/context/data'
-import { Edit, Paperclip, Star } from 'lucide-react'
+import { CircleUserRound, Edit, Paperclip, Star } from 'lucide-react'
 import { Button } from './ui/button'
 import { getUserId } from '@/app/actions'
+import { useRouter } from 'next/navigation'
 
 function HotelReview({userId, property_id }) {
-     
+     const router = useRouter();
      const [starRating, setStarRating] = useState(1);
      const [message, setMessage] = useState("");
+     const [reviews, setReviews] = useState([]);
+     const [finish, setFinish] = useState(false);
+
 
      const handleTextArea = (message)=>{
         if(message.length > 100){
@@ -31,16 +35,25 @@ function HotelReview({userId, property_id }) {
         setMessage(message)
      }
 
+     const fetchReviews = async ()=>{
+        const res = await fetch(`/api/review?property_id=${property_id}`);
+        const data = await res.json();
+        console.log(data);
+        setReviews(data);
+    }
+     useEffect(()=>{
+        fetchReviews();
+     },[])
+
      const saveReview = async ()=>{
         const loadData = {
             userId,
             property_id,
-            starRating,
+            rating:starRating,
             message,
         }
-        console.log(loadData)
 
-         const response = await fetch("http://localhost:3000/api/review/add",{
+         const response = await fetch("/api/review",{
              method:"POST",
              headers:{
                  "Content-Type": "application/json",
@@ -48,9 +61,9 @@ function HotelReview({userId, property_id }) {
              body: JSON.stringify(loadData)
          })
          if(response.ok){
-             alert("Review saved successfully.")
              setStarRating("")
              setMessage("")
+             fetchReviews();
          }else{
              alert("Failed to save review.")
          }
@@ -62,25 +75,27 @@ function HotelReview({userId, property_id }) {
            <Carousel className="mx-auto w-[90%]">
             <CarouselContent>
     {
-        propertyCategories.map((c,index)=>(
+        reviews?.map((c,index)=>(
                 <CarouselItem className="basis-1/4" key={index}>
                     <div className='w-full h-[300px] relative border border-gray-300 p-3'>
                         <div className="flex ">
-                            <div className='w-[40px] h-[40px] rounded-full overflow-hidden'><img className='w-full h-full' src={c.image}/></div>
+                            <div className='w-[40px] h-[40px] rounded-full overflow-hidden'>
+                                <CircleUserRound className='w-full h-full text-primary'/>
+                            </div>
                             <div className='ml-[10px] w-full'>
-                                <div className='text-sm text-gray-500'>{c.name}</div>
-                                <div className='text-sm text-gray-600'>ex@gmail.com</div>
+                                <div className='text-sm text-gray-500'>{c?.userId?.name}</div>
+                                <div className='text-sm text-gray-600'>{c?.userId?.email}</div>
                             </div>
                         </div>
                         <div className='mt-2'>
-                        {Array.from({ length: 3 }, (_, index) => (
+                        {Array.from({ length: c?.rating }, (_, index) => (
             
                                 <span key={index} style={{ fontSize: '15px', color: 'gold' }}>⭐</span>
                             ))}
                         </div>
 
                         <div className='border border-gray-300 rounded-md p-2 text-xs mt-3'>
-                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Suscipit eligendi quae voluptas ducimus iusto optio autem ad commodi, ex similique. Deserunt quo sed perspiciatis officia, debitis cum quaerat est omnis?
+                            {c?.message}
                         </div>
                     </div>
     
@@ -110,7 +125,7 @@ function HotelReview({userId, property_id }) {
                         }
                     
                     </div>
-                    <textarea className='border border-primary rounded-md p-2 ' rows={5} cols={30} onChange={(e)=>handleTextArea(e.target.value)}>
+                    <textarea className='border border-primary rounded-md p-2 ' rows={7} cols={40} onChange={(e)=>handleTextArea(e.target.value)}>
 
                     </textarea><br />
                     <Button className="mt-3" onClick={()=>saveReview()}>Submit Review</Button>

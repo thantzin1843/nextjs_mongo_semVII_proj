@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const reservationSchema = new mongoose.Schema({
+  name:String,
   email: {
     type: String,
     required: true,
@@ -27,7 +28,11 @@ const reservationSchema = new mongoose.Schema({
     required: true,
     min: 1, // At least 1 guest
   },
-  status:String,
+  property_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Property', // References the Room model
+    required: true,
+  },
   roomId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Room', // References the Room model

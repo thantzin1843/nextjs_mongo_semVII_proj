@@ -2,16 +2,14 @@ import React from 'react'
 
 function Footer() {
   return (
-    
-
-<footer className="bg-white shadow-md my-5 rounded-md">
+<footer className="bg-white shadow-md my-5 mt-[100px] rounded-md border border-gray-300">
     <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
         <div className="md:flex md:justify-between">
           <div className="mb-6 md:mb-0">
-              <a href="https://flowbite.com/" className="flex items-center">
-                  <img src="https://flowbite.com/docs/images/logo.svg" className="h-8 me-3" alt="FlowBite Logo" />
-                  <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
-              </a>
+            <div className=' bg-red-500 h-[200px]'>
+            <img src="/logobook.png" className="w-full h-full" alt="FlowBite Logo" />
+                </div>  
+
           </div>
           <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
               <div>

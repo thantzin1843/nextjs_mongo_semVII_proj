@@ -8,6 +8,7 @@ import DashboardRedirect from "@/components/ClientNavigation";
 import PropertyCategory from "@/sections/PropertyCategory";
 import Footer from "@/sections/Footer";
 import NextProgress from "next-progress";
+import About from "@/sections/About";
 
 
 
@@ -20,13 +21,14 @@ export default async function Home() {
       {/* <TrendDestination/> */}
       <PropertyCategory/>
 
-      <h1 className="text-3xl mt-[50px]">
+      {/* <h1 className="text-3xl mt-[50px]">
         Welcome, {session?.user?.role}
         <form action={doLogout}>
             <button className="bg-blue-400 my-2 text-white p-1 rounded" type="submit">Logout</button>
         </form>
-      </h1>
-
+      </h1> */}
+      <About/>
+      
       <Footer/>
     </div>
     ):(

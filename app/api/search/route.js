@@ -48,8 +48,11 @@ export async function GET(req) {
 
       // Check if the requested dates overlap with any reserved dates
       room.availability.forEach((availability) => {
-        const reservedFrom = new Date(availability.from);
-        const reservedTo = new Date(availability.to);
+        const rFrom = new Date(availability.from);
+        const reservedFrom = formatDate(rFrom);
+        const rTo = new Date(availability.to);
+        const reservedTo = formatDate(rTo);
+        console.log(rFrom , reservedFrom,reservedTo,fromDate,toDate)
         // Check for overlapping dates
         if (
           (fromDate < reservedTo && toDate > reservedFrom) || // Overlapping condition
@@ -60,9 +63,9 @@ export async function GET(req) {
       });
 
       // Calculate available rooms count
+
       const availableRoomsCount = room.no_of_rooms - totalReservedRooms;
 
-      // Return the room with the available rooms count
       return {
         ...room.toObject(), // Convert Mongoose document to plain JavaScript object
         availableRoomsCount,
@@ -70,8 +73,6 @@ export async function GET(req) {
     }).filter((room) => {
       // Apply filters
       const property = room.property_id;
-      console.log("location in romm")
-      console.log(property)
       if (location && !property.location.city.toLowerCase().includes(location.toLowerCase())) {
 
         return false;
@@ -124,8 +125,8 @@ export async function GET(req) {
         images: images ? images.images : [], // Add images to the room object
       };
     });
-    console.log("Server result with images:");
-    console.log(roomsWithImages);
+    // console.log("Server result with images:");
+    // console.log(roomsWithImages);
 
     return NextResponse.json(roomsWithImages);
   } catch (error) {

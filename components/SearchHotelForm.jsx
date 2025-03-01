@@ -11,10 +11,11 @@ import {
 import { SearchIcon } from 'lucide-react'
 import { Checkbox } from './ui/checkbox'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchFormContext } from '@/context/SearchContext'
 
 
 function SearchHotelForm() {
-
+  const {updateSearchFormData} = useSearchFormContext();
   const [date, setDate] = useState( {});
   const [location, setLocation] = useState("");
   const [adult, setAdult] = useState(1);
@@ -32,13 +33,15 @@ function SearchHotelForm() {
     const queryParams = new URLSearchParams({
       location,from:checkin,to:checkout,no_of_guests,pet
     }).toString();
+    localStorage.setItem('checkin',checkin)
+    localStorage.setItem('checkout',checkout)
     window.location.href = `/search?${queryParams}`;
     // router.push(`/search?${queryParams}`);
 
   }
   return (
-    <div className='w-full'>
-        <div className='flex justify-center gap-2 rounded-xl w-5/6 mx-auto py-5 px-3 shadow-lg border  bg-white'>
+    <div className='w-full absolute bottom-[-50px] '>
+        <div className='flex justify-center gap-2 rounded-xl w-5/6 mx-auto py-5 px-3 shadow-lg border  bg-white  border-primary'>
            <div className='flex flex-col w-1/4'>
             <Input type="text" className="border border-primary " placeholder="Where are you going ?" onChange={(e)=>setLocation(e.target.value)}/>
            </div>

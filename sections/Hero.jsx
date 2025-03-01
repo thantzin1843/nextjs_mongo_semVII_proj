@@ -7,17 +7,18 @@ function Hero() {
   return (
    <>
      <Navbar/>
-      <div className='relative w-full'>
+      <div className='relative w-full mt-5'>
           <div className='' style={{
               backgroundImage: "url('/mount_hotel.jpg')",
               backgroundSize: "cover",
               backgroundPosition: "center",
-              height: "150px",
+              height: "300px",
               borderRadius:"10px",
               overflow:'hidden',
             }}>
               <div className="text-white texl-5xl w-full h-full flex flex-col justify-center items-center ">
-                <div className='text-4xl text-white font-extrabold'>Book your stay with us!</div>
+                <div className='text-[35px] text-white font-extrabold'>Book your stay with us!</div>
+                <div className='text-[20px] text-white '>Book your stay with us!</div>
                 
               </div>
           </div>

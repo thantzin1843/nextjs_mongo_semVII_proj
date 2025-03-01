@@ -8,25 +8,19 @@ async function Navbar() {
   const session = await auth();
   // console.log(session.user.role)
   return (
-    <div className='flex justify-between h-[70px] items-center'>
-        <div>
-            Logo
-        </div>
-        <div className='flex gap-[50px]'>
-            <Link href="/" className='hover:scale-105 hover:font-bold'>Home</Link>
-            <Link href="/search" className='hover:scale-105 hover:font-bold'>Hotels</Link>
-        </div>
+    <div className='flex justify-between items-center'>
         <div className='flex items-center gap-3'>
-          {session?.user?.name ? 
+          {/* {session?.user?.name ? 
           (
            <div className='flex'> 
             <Link href={`/property_list/${session.user._id}`} className='me-3 bg-primary flex gap-2 p-2 rounded-md text-white'>List Your Property</Link>
-            <div className=' flex items-center border border-primary p-1 rounded-md'><User /> {session?.user?.name}</div>
+            <div className=' flex items-center border border-primary p-1 rounded-md'><User 
+            /> {session?.user?.name}</div>
            </div>
           )  : (
             <Link href="/login" className='bg-primary flex gap-2 p-2 rounded-md text-white'><LogIn/> Login</Link>
           )
-          }
+          } */}
             
            
 

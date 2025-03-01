@@ -8,6 +8,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs"
 
 import { Button } from '@/components/ui/button';
 import { useParams, useRouter } from 'next/navigation'
@@ -15,6 +21,7 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
 import { useFormContext } from '@/context/PropertyListContext';
 import { ArrowRight, Building, Images } from "lucide-react";
+import ReservationList from "@/components/ReservationList";
 
 function page() {
     const params = useParams();
@@ -117,9 +124,16 @@ function page() {
     </div>
 
     <div className='text-3xl mt-5 mb-3'>Your Property Listings</div>
-            <div className="mt-2 w-full mb-5">
 
-               <Table className="mb-5">
+
+            <div className="mt-2 w-full mb-5">
+    <Tabs defaultValue="property" className="">
+      <TabsList className="grid w-full grid-cols-2">
+        <TabsTrigger value="property">Properties</TabsTrigger>
+        <TabsTrigger value="reservation">Reservations</TabsTrigger>
+      </TabsList>
+      <TabsContent value="property">
+      <Table className="mb-5">
                       {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
                       <TableHeader>
                         <TableRow>
@@ -149,6 +163,14 @@ function page() {
                         
                       </TableBody>
                     </Table>
+      </TabsContent>
+
+      <TabsContent value="reservation">
+          <ReservationList userId={params.slug}/>
+      </TabsContent>
+    </Tabs>
+
+             
               
               
 

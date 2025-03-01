@@ -3,6 +3,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import Nav from "@/components/Property/Nav";
 import { RoomDetailProvider } from "@/context/RoomDetailContext";
+import { SearchFormProvider } from "@/context/SearchContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,11 +26,13 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased `}
       >
+        <SearchFormProvider>
           <RoomDetailProvider>
           <Nav/>
           {children}
           <Toaster/>
           </RoomDetailProvider>
+        </SearchFormProvider>
       </body>
     </html>
   );
