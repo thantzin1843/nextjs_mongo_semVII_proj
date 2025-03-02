@@ -19,9 +19,12 @@ import { CircleUserRound, Edit, Paperclip, Star } from 'lucide-react'
 import { Button } from './ui/button'
 import { getUserId } from '@/app/actions'
 import { useRouter } from 'next/navigation'
+import { useToast } from '@/hooks/use-toast'
+import { openToast } from '@/app/actions/toastOpen'
 
 function HotelReview({userId, property_id }) {
      const router = useRouter();
+     const {toast} = useToast() 
      const [starRating, setStarRating] = useState(1);
      const [message, setMessage] = useState("");
      const [reviews, setReviews] = useState([]);
@@ -34,6 +37,15 @@ function HotelReview({userId, property_id }) {
         }
         setMessage(message)
      }
+
+     const openToast = (message) =>{
+        toast({
+          title: message,
+          description: new Date().toLocaleString(),
+          bg:'bg-green-500 text-white'
+          
+        })
+      }
 
      const fetchReviews = async ()=>{
         const res = await fetch(`/api/review?property_id=${property_id}`);
@@ -63,6 +75,7 @@ function HotelReview({userId, property_id }) {
          if(response.ok){
              setStarRating("")
              setMessage("")
+             openToast("Review saved successfully.")
              fetchReviews();
          }else{
              alert("Failed to save review.")
@@ -72,9 +85,13 @@ function HotelReview({userId, property_id }) {
     <div className='mt-[70px] mb-[50px]'>
             <div className='text-xl mb-5 font-bold'>Read Reviews</div>
     
-           <Carousel className="mx-auto w-[90%]">
+          {
+            reviews?.length === 0 && <div >No review yet.</div>
+          }
+           <Carousel className="mx-auto w-[100%] my-3">
             <CarouselContent>
     {
+        reviews?.length > 0 && 
         reviews?.map((c,index)=>(
                 <CarouselItem className="basis-1/4" key={index}>
                     <div className='w-full h-[300px] relative border border-gray-300 p-3'>
@@ -109,7 +126,7 @@ function HotelReview({userId, property_id }) {
             <CarouselNext />
             </Carousel>
     
-            <div className='mt-3 '>
+            <div className='mt-5 '>
                     <Dialog>
                     <DialogTrigger asChild>
                         <Button className="">Write Reviews<Edit className='inline ms-2 text-xs'/> </Button>

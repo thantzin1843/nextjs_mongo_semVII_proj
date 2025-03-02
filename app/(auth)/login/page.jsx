@@ -15,6 +15,7 @@ function LoginPage() {
     event.preventDefault();
     try {
         const formData = new FormData(event.currentTarget);
+        // console.log(formData);
         const response = await doCredentialLogin(formData);
 
         if (!!response.error) {

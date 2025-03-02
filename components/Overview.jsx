@@ -20,10 +20,10 @@ At the hotel, every room comes with a closet. Complete with a private bathroom e
 
 Musée de l'Orangerie is 1.8 miles from the accommodation, while Tuileries Garden is 2.1 miles away. Paris - Orly Airport is 8.7 miles from the property.
 
-Couples in particular like the wonderful location – {property?.location?.mapLink}
+Couples in particular like the wonderful location – 
         </div>
-        <div className='p-2'>
-        <iframe src={property?.location?.mapLink} width="200" height="200" allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+        <div className='p-2 w-1/4'>
+        <iframe src={property?.location?.mapLink} className='w-full' height="300" allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
         </div>
         </div>
         

@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useRoomDetailContext } from '@/context/RoomDetailContext';
 import { useSearchFormContext } from '@/context/SearchContext';
+import { useToast } from '@/hooks/use-toast';
 import { Calendar, DoorClosed, PersonStanding } from 'lucide-react';
 import { useParams } from 'next/navigation'
 import { useRouter } from 'next/navigation';
@@ -15,7 +16,7 @@ function page() {
 
     const {room_id} = useParams();
     // const [room, setRoom] = useState(null);
-
+    const {toast} = useToast();
     const [email, setemail] = useState('');
     const [phone, setphone] = useState('');
     const checkIn =localStorage.getItem('checkin');
@@ -24,6 +25,15 @@ function page() {
     const [numberOfGuests, setnumberOfGuests] = useState(1);
     const [no_of_rooms_reserved,setno_of_rooms_reserved] = useState(1);
     const [nights, setnights] = useState(0);
+
+    const openToast = (message) =>{
+      toast({
+        title: message,
+        description: new Date().toLocaleString(),
+        bg:'bg-green-500 text-white'
+        
+      })
+    }
 
     useEffect(()=>{
       const checkInDate = new Date(checkIn);
@@ -58,7 +68,7 @@ function page() {
         });
     
         const result = await response.json();
-        console.log(result);
+        openToast("Successful Reservation")
         router.push(`/`)
       } catch (error) {
         console.error("Error:", error);

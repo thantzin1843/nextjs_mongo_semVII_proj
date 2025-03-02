@@ -22,9 +22,15 @@ function SignupPage() {
     }
     if(!email){
       errors.email = "Email is required";
+    }else if (!/\S+@\S+\.\S+/.test(email)) {
+      errors.email = "Email address is invalid";
     }
+    
     if(!password){
       errors.password = "Password is required";
+    }
+    if(password.length < 6){
+      errors.length = "Password length should be at least 6 characters";
     }
     else if(password!== confirm_password){
       errors.confirm_password = "Passwords do not match";
@@ -77,6 +83,7 @@ function SignupPage() {
                   
                 <label htmlFor="" className='text-sm'>Password</label>
                 <span className='text-red-500 text-sm ms-5'>{errors.password && `[${errors.password}]`}</span>
+                <span className='text-red-500 text-sm ms-5'>{errors.length && `[${errors.length}]`}</span>
                 <Input type="password" className="mb-5" placeholder="Password " value={password} onChange={(e)=>setPassword(e.target.value)}/>
 
                 <label htmlFor="" className='text-sm'>Confirm Password</label>

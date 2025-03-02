@@ -35,6 +35,7 @@ async function Nav() {
                 </PopoverTrigger>
                 <PopoverContent className="p-2">
                     <Link href='' className='block text-center py-2 border-b'>Profile</Link>
+                    <Link href={`/my_favourite/${session?.user?._id}`} className='block text-center py-2 border-b'>My Favourites</Link>
                     <Link href={`/my_reservation/${session?.user?._id}`} className='block text-center py-2 border-b'>My reservations</Link>
                     
                     <form action={doLogout}>

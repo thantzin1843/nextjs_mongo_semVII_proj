@@ -11,8 +11,8 @@ import { propertyCategories } from '@/context/data'
   
 function PropertyCategory() {
   return (
-    <div className='mt-[70px] mb-[50px]'>
-        <div className='text-xl mb-5 font-bold'>What kind of property are you looking for?</div>
+    <div className='mt-[30px] mb-[50px]'>
+        <div className='text-2xl mb-5 '>What kind of property are you looking for?</div>
 
        <Carousel className="mx-auto w-[90%]">
         <CarouselContent>

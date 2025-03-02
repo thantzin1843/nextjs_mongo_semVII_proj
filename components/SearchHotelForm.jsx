@@ -12,6 +12,7 @@ import { SearchIcon } from 'lucide-react'
 import { Checkbox } from './ui/checkbox'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useSearchFormContext } from '@/context/SearchContext'
+import { southeastAsiaCities } from '@/context/data'
 
 
 function SearchHotelForm() {
@@ -24,6 +25,41 @@ function SearchHotelForm() {
 
 
   const router = useRouter();
+
+  // modify features 
+  const [suggestions, setSuggestions] = useState([]);
+
+  // Mock API call to fetch location suggestions
+  const fetchSuggestions = async (query) => {
+    // Replace this with a real API call (e.g., Google Places API)
+
+
+    // Filter suggestions based on the query
+    const filteredSuggestions = southeastAsiaCities.filter((suggestion) =>
+      suggestion.toLowerCase().includes(query.toLowerCase())
+    );
+
+    setSuggestions(filteredSuggestions);
+  };
+
+  // Handle input change
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setLocation(value);
+
+    if (value.length > 2) {
+      fetchSuggestions(value);
+    } else {
+      setSuggestions([]);
+    }
+  };
+
+  // Handle suggestion selection
+  const handleSuggestionClick = (suggestion) => {
+    setLocation(suggestion);
+    setSuggestions([]); // Clear suggestions
+  };
+  //modify features end
 
   const handleSearch = () => {
     const checkin = new Date(date.from)
@@ -40,10 +76,23 @@ function SearchHotelForm() {
 
   }
   return (
-    <div className='w-full absolute bottom-[-50px] '>
-        <div className='flex justify-center gap-2 rounded-xl w-5/6 mx-auto py-5 px-3 shadow-lg border  bg-white  border-primary'>
-           <div className='flex flex-col w-1/4'>
-            <Input type="text" className="border border-primary " placeholder="Where are you going ?" onChange={(e)=>setLocation(e.target.value)}/>
+    <div className='w-full mt-5 '>
+        <div className='flex justify-center gap-2 rounded-xl w-5/6 mx-auto py-5 shadow-lg border  bg-white  border-primary'>
+           <div className='flex flex-col w-1/4 relative'>
+            <Input type="text" className="border border-primary " value={location} placeholder="Where are you going ?" onChange={handleInputChange}/>
+            {suggestions.length > 0 && (
+              <ul className="absolute top-full left-0 right-0 bg-white border border-primary mt-1 z-10 rounded-md">
+                {suggestions.map((suggestion, index) => (
+                  <li
+                    key={index}
+                    className="p-2 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => handleSuggestionClick(suggestion)}
+                  >
+                    {suggestion}
+                  </li>
+                ))}
+              </ul>
+      )}
            </div>
 
            <div className='flex flex-col'>

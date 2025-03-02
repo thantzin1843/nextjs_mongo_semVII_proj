@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { ImageKitProvider, IKImage, IKUpload } from "imagekitio-next";
 import { Button } from '@/components/ui/button';
 import { useParams } from 'next/navigation';
+import { useToast } from '@/hooks/use-toast';
 
 const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY;
 const urlEndpoint = process.env.NEXT_PUBLIC_URL_ENDPOINT;
@@ -14,6 +15,7 @@ export default function Home() {
   const property_id = params.property_id;
   const [img, setImg] = useState([]);
   const [uploaded,setUploaded] = useState(false);
+  const {toast} = useToast();
   const authenticator = async () => {
     try {
       const response = await fetch("http://localhost:3000/api/upload-auth");
@@ -33,6 +35,15 @@ export default function Home() {
     }
   };
   
+  const openToast = (message) =>{
+    toast({
+      title: message,
+      description: new Date().toLocaleTimeString(),
+      bg:'bg-green-500 text-white'
+      
+    })
+  }
+
   const fetchAllImages = async(pid)=>{
     try{
       const res = await fetch('/api/property/images?property_id='+pid);
@@ -69,6 +80,8 @@ export default function Home() {
         body: JSON.stringify({img,property_id}),
       });
       setUploaded(true);
+      openToast("Image uploaded successfully!");
+      window.history.go(-1);
     } catch (error) {
       console.error("Request failed:", error);
     }
@@ -102,9 +115,9 @@ export default function Home() {
 
   return (
     <div className='App'>
-       {
+       {/* {
           uploaded ? <div className="mt-5 text-lg text-green-500">Images uploaded successfully!</div> : <div className='text-red-500 mt-5 text-lg'>Images are not uploaded yet!</div>
-        }
+        } */}
       <ImageKitProvider publicKey={publicKey} urlEndpoint={urlEndpoint} authenticator={authenticator}>
 
          <div className='p-3 '>
@@ -113,7 +126,7 @@ export default function Home() {
              <label htmlFor="images">
                  <div className='border border-primary w-[120px] h-[120px] bg-primary shadow-xl p-5 rounded-lg'>
                      <ImagePlusIcon className='w-full h-full text-white'/>
-                     <div className="text-xs text-white text-center">Upload here!</div>
+                     <div className="text-xs text-white text-center">Select Image</div>
                  </div>
              </label>
           <Button className="mt-3" onClick={()=>saveImageToDB()}>Upload images</Button>

@@ -20,11 +20,14 @@ import { Edit } from 'lucide-react'
 function ReservationList({userId}) {
 
     const [reservations, setReservations] = useState([]);
+    const [loading, setLoading] = useState(false);
     const fetchReservations = async () => {
+        setLoading(true)
         const response = await fetch(`/api/reserve?userId=${userId}`)
         const data = await response.json()
-        console.log(data)
-        setReservations(data)
+        // console.log(data?.reservations)
+        data?.reservation && setReservations(data)
+        setLoading(false)
     }
     useEffect(()=>{
         fetchReservations();
@@ -32,7 +35,8 @@ function ReservationList({userId}) {
     
   return (
     <div>
-        <div>Reservations List</div>
+        <div className='text-xl mb-2'>Reservations List</div>
+            
         <Table className="mb-5">
                       {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
                       <TableHeader>
@@ -45,7 +49,22 @@ function ReservationList({userId}) {
                         </TableRow>
                       </TableHeader>
                       <TableBody>
+                        <TableRow className="w-full">
+                          <TableCell>
+
+                        {
+                              loading && (
+                                <div className=" flex mx-auto w-1/2 flex-col items-center justify-center">
+                                  <div className="w-8 h-8 border-4 mb-3 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                                    <p>Fetching Reservations</p>
+                                </div>
+                              )
+                            }
+                          </TableCell>
+                        </TableRow>
+                        
     {
+       !loading && reservations?.length !== 0 &&
       reservations?.map((r,index)=>(
                         <TableRow key={index}>
                           <TableCell> 

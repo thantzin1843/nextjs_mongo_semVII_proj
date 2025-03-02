@@ -62,7 +62,7 @@ export default function page(){
     const openToast = (message) =>{
       toast({
         title: message,
-        description: "Friday, February 10, 2023 at 5:57 PM",
+        description: new Date().toLocaleTimeString(),
         bg:'bg-green-500 text-white'
         
       })

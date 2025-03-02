@@ -1,4 +1,5 @@
 // pages/api/search.js
+import { getUserId } from '@/app/actions';
 import { connectToDB } from '@/lib/db';
 import PropertyImageModel from '@/models/PropertyImageModel';
 import PropertyModel from '@/models/PropertyModel';
@@ -16,9 +17,17 @@ export async function GET(req) {
     const location = searchParams.get('location'); // Filter by property location (city or country)
     const noOfGuests = searchParams.get('no_of_guests'); // Filter by room's no_of_guests
     const petAllowed = searchParams.get('pet');
+    const breakfast = searchParams.get('breakfast');
+    const children = searchParams.get('children');
+    const party = searchParams.get('party');
+    const smoking = searchParams.get('smoking');
 
     const categoryArray = searchParams.getAll('categories') ; // Filter by property categories (comma-separated list)
     const facilitiesArray = searchParams.getAll('facilities') ;
+    const funThingsArray = searchParams.getAll('funThings') ;
+    const propertyAccessibility = searchParams.getAll('propertyAccessibilities') ;
+    const ratingArray = searchParams.getAll('rating') ;
+
 
     if (!from || !to) {
       return NextResponse.json(
@@ -52,7 +61,6 @@ export async function GET(req) {
         const reservedFrom = formatDate(rFrom);
         const rTo = new Date(availability.to);
         const reservedTo = formatDate(rTo);
-        console.log(rFrom , reservedFrom,reservedTo,fromDate,toDate)
         // Check for overlapping dates
         if (
           (fromDate < reservedTo && toDate > reservedFrom) || // Overlapping condition
@@ -90,7 +98,33 @@ export async function GET(req) {
         } 
       }
 
+      // console.log("Breakfast is"+breakfast+""+typeof breakfast);
+      if (JSON.parse(breakfast)) {
+        if(property.food_and_dining.serve_breakfast === false){
+          return false;
+        } 
+      }
+      if (JSON.parse(children)) {
+        if(property.house_rules.children_allowed === false){
+          return false;
+        } 
+      }
+      if (JSON.parse(smoking)) {
+        if(property.house_rules.smoking_allowed === false){
+          return false;
+        } 
+      }
+      if (JSON.parse(party)) {
+        if(property.house_rules.party_allowed === false){
+          return false;
+        } 
+      }
+
       if (categoryArray.length > 0 && !categoryArray.includes(property.property_category)) {
+        return false;
+      }
+
+      if (ratingArray.length > 0 && !ratingArray.includes(property.star_rating.toString())) {
         return false;
       }
 
@@ -100,6 +134,21 @@ export async function GET(req) {
       ) {
         return false;
       }
+
+      if (
+        funThingsArray.length > 0 &&
+        !funThingsArray.every((funThing) => property.fun_things_todo.includes(funThing))
+      ) {
+        return false;
+      }
+
+      if (
+        propertyAccessibility.length > 0 &&
+        !propertyAccessibility.every((pa) => property.property_accessibility.includes(pa))
+      ) {
+        return false;
+      }
+
 
 
 

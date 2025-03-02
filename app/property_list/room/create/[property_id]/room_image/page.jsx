@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { ImageKitProvider, IKImage, IKUpload } from "imagekitio-next";
 import { Button } from '@/components/ui/button';
 import { useParams } from 'next/navigation';
+import { useToast } from '@/hooks/use-toast';
 
 const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY;
 const urlEndpoint = process.env.NEXT_PUBLIC_URL_ENDPOINT;
@@ -15,6 +16,7 @@ export default function RoomImage() {
   console.log("room id is"+roomId)
   const [img, setImg] = useState([]);
   const [uploaded, setUploaded] = useState(false);
+  const {toast} = useToast();
   const authenticator = async () => {
     try {
       const response = await fetch("http://localhost:3000/api/upload-auth");
@@ -32,6 +34,15 @@ export default function RoomImage() {
     }
   };
   
+  const openToast = (message) =>{
+    toast({
+      title: message,
+      description: new Date().toLocaleTimeString(),
+      bg:'bg-green-500 text-white'
+      
+    })
+  }
+
   const fetchAllImages = async(pid)=>{
     try{
       const res = await fetch('/api/room/images?roomId='+pid);
@@ -71,6 +82,8 @@ export default function RoomImage() {
       });
       const data = await response.json();
       setUploaded(true);
+      openToast("Room and room's images are saved successfully!");
+      window.history.go(-2);
     } catch (error) {
       console.error("Request failed:", error);
     }
@@ -118,7 +131,7 @@ export default function RoomImage() {
              <label htmlFor="images">
                  <div className='border border-primary w-[120px] h-[120px] bg-primary shadow-xl p-5 rounded-lg'>
                      <ImagePlusIcon className='w-full h-full text-white'/>
-                     <div className="text-xs text-white text-center">Upload here!</div>
+                     <div className="text-xs text-white text-center">Select Image!</div>
                  </div>
              </label>
           <Button className="mt-3" onClick={()=>saveImageToDB()}>Upload images</Button>

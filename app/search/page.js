@@ -3,7 +3,7 @@ import HotelCard from '@/components/HotelCard';
 import SearchHotelForm from '@/components/SearchHotelForm'
 import { Checkbox } from '@/components/ui/checkbox';
 import { all_facilities, funThings, propertyAccessibility, propertyCategories } from '@/context/data';
-import { SortAsc, SortDesc, Star } from 'lucide-react';
+import { Database, SortAsc, SortDesc, Star } from 'lucide-react';
 import React, { useEffect, useState } from 'react'
 import {
     Select,
@@ -38,6 +38,18 @@ function page() {
     const petAllowed = searchParams.get('pet') || false;
     const [categories, setCategories] = useState([]);
     const [facilities, setFacilities] = useState([]);
+    const [loading, setloading] = useState(true);
+
+    // additional
+    const [rating, setRating] = useState([]);
+    const [breakfast, setBreakfast] = useState(false);
+    const [children , setChildren] = useState(false);
+    const [party, setParty] = useState(false);
+    const [smoking ,setSmoking] = useState(false);
+    const [fthings, setFunThings] = useState([]);
+    const [pa, setPropertyAccessibility] = useState([]);
+
+    // end of additional
  
     const [rooms, setRooms] = useState([]);
 
@@ -53,17 +65,45 @@ function page() {
         );
         // console.log(facilities);
       }
+      const selectRating = (item) =>{
+        setRating((prev)=>
+            prev.includes(item) ? prev.filter((rating) => rating !== item) : [...prev, item]
+        );
+      }
+
+      const selectFunThings = (item) =>{
+        setFunThings((prev)=>
+            prev.includes(item) ? prev.filter((fun) => fun !== item) : [...prev, item]
+        );
+      }
+
+      const selectPropertyAccess = (item) =>{
+        setPropertyAccessibility((prev)=>
+            prev.includes(item) ? prev.filter((access) => access !== item) : [...prev, item]
+        );
+      }
+
 
       const searchProperty = async () => {
+        setloading(true);
         const queryParams =  new URLSearchParams({
             location, from:checkin, to:checkout,  no_of_guests: noOfGuests, // Number of guests filter
-            pet: petAllowed,
+            pet: petAllowed,breakfast,children,party,smoking
         });
         categories.forEach(category => {
             queryParams.append('categories', category);
         });
         facilities.forEach((facility) => {
             queryParams.append('facilities', facility);
+        });
+        rating.forEach((rate) => {
+            queryParams.append('rating', rate);
+        });
+        fthings.forEach((f) => {
+            queryParams.append('funThings', f);
+        });
+        pa.forEach((p) => {
+            queryParams.append('propertyAccessibilities', p);
         });
 
         console.log("before fetching in /search page query"+queryParams.toString());
@@ -73,11 +113,12 @@ function page() {
         // console.log("Client available rooms ="+JSON.stringify(data));
         console.log(data);
         setRooms(data);
+        setloading(false);
       }
       
       useEffect(()=>{
         searchProperty();
-      },[facilities,categories])
+      },[facilities,categories,rating,breakfast,children,party,smoking,fthings,pa])
 
 
       const [showAll, setShowAll] = useState(false);
@@ -102,7 +143,7 @@ function page() {
            <div className='w-1/4 p-2'>
         {/* map */}
         <div className='w-full h-[150px] bg-black'>
-
+        <iframe src={rooms[0]?.property_id?.location?.mapLink} className='w-full h-full' allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
         </div>
 
         {/* Property type */}
@@ -139,8 +180,8 @@ function page() {
                                
                                 [1, 2, 3, 4, 5].map((star,index) => (
                                     <div className="flex items-center space-x-2 my-2 " key={index}>
-                                    {/* <Checkbox id={item} onClick={()=>selectFacilities(item)} checked={checked}/> */}
-                                    <Checkbox />
+                                    <Checkbox id={star} onClick={()=>selectRating(star)}/>
+                                    {/* <Checkbox onClick={()=>}/> */}
                                     <label
                                         
                                         className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -188,7 +229,7 @@ function page() {
 
                                     <div className="flex items-center space-x-2 my-2 ">
                                     {/* <Checkbox id={item} onClick={()=>selectFacilities(item)} checked={checked}/> */}
-                                    <Checkbox />
+                                    <Checkbox onClick={()=>setBreakfast(!breakfast)}/>
                                     <label
                                         htmlFor="Breakfast included"
                                         className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -196,20 +237,11 @@ function page() {
                                         Breakfast included
                                     </label>
                                     </div>
-                                    <div className="flex items-center space-x-2 my-2 ">
-                                    {/* <Checkbox id={item} onClick={()=>selectFacilities(item)} checked={checked}/> */}
-                                    <Checkbox />
-                                    <label
-                                        htmlFor="Breakfast included"
-                                        className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                    >
-                                        Pet Allowed
-                                    </label>
-                                    </div>
+                                  
 
                                     <div className="flex items-center space-x-2 my-2 ">
                                     {/* <Checkbox id={item} onClick={()=>selectFacilities(item)} checked={checked}/> */}
-                                    <Checkbox />
+                                    <Checkbox onClick={()=>setChildren(!children)}/>
                                     <label
                                         htmlFor="Breakfast included"
                                         className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -218,8 +250,7 @@ function page() {
                                     </label>
                                     </div>  
                                     <div className="flex items-center space-x-2 my-2 ">
-                                    {/* <Checkbox id={item} onClick={()=>selectFacilities(item)} checked={checked}/> */}
-                                    <Checkbox />
+                                    <Checkbox onClick={()=>setParty(!party)}/>
                                     <label
                                         htmlFor="Breakfast included"
                                         className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -228,8 +259,7 @@ function page() {
                                     </label>
                                     </div>     
                                     <div className="flex items-center space-x-2 my-2 ">
-                                    {/* <Checkbox id={item} onClick={()=>selectFacilities(item)} checked={checked}/> */}
-                                    <Checkbox />
+                                    <Checkbox onClick={()=>setSmoking(!smoking)}/>
                                     <label
                                         htmlFor="Breakfast included"
                                         className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -248,10 +278,10 @@ function page() {
                                                     // const checked = selectedFunThings.includes(item);
                                                 return (
                                                     <div className="flex items-center space-x-2 mt-2 text-xs " key={index}>
-                                                    <Checkbox id={item} />
+                                                    <Checkbox id={item} onClick={()=>selectFunThings(item)}/>
                                                     <label
                                                         htmlFor={item}
-                                                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                                        className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                                                     >
                                                         {item}
                                                     </label>
@@ -275,10 +305,10 @@ function page() {
                                                     // const checked = selectedFunThings.includes(item);
                                                 return (
                                                     <div className="flex items-center space-x-2 mt-2 text-xs " key={index}>
-                                                    <Checkbox id={item} />
+                                                    <Checkbox id={item} onClick={()=>selectPropertyAccess(item)}/>
                                                     <label
                                                         htmlFor={item}
-                                                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                                        className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                                                     >
                                                         {item}
                                                     </label>
@@ -302,7 +332,7 @@ function page() {
         {/* right */}
         <div className='w-3/4 p-2'>
         {/* sort bar */}
-        <div className='flex flex-end items-center'>
+        {/* <div className='flex flex-end items-center'>
            <SortDesc/> Sort by &nbsp; 
             <Select className="">
         <SelectTrigger className="w-[180px] border border-primary">
@@ -315,15 +345,28 @@ function page() {
         </SelectContent>
         </Select>
 
-        </div>
+        </div> */}
 
             {/* hotel card */}
             {
-                rooms?.length > 0 && (
-                    rooms?.map((room,index)=>(
-                        <HotelCardOne room={room} key={index}/>
-                    ))
+              loading && (
+                <div className=" flex mx-auto w-1/2 flex-col items-center justify-center">
+                      <div className="w-8 h-8 border-4 mb-3 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                        <p>Searching rooms</p>
+                </div>
+              )
+            }
+            {
+                !loading && (
+                    (rooms?.length > 0 ) ? (
+                        rooms?.map((room,index)=>(
+                            <HotelCardOne room={room} key={index}/>
+                        ))
+                    ):(
+                        <div className='flex justify-center text-xl text-gray-400'><Database className='inline me-3'/> No room is found.</div>
+                    )
                 )
+                
             }
 
         </div>

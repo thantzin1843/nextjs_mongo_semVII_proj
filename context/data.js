@@ -252,3 +252,40 @@ export const roomTypes = [
   "Loft",
   "Cottage"
 ];
+
+
+export const southeastAsiaCities = [
+  "Bago",
+  // Indonesia
+  "Jakarta", "Bali", "Surabaya", "Bandung", "Medan", "Yogyakarta", "Semarang", "Makassar", "Palembang", "Malang",
+
+  // Malaysia
+  "Kuala Lumpur", "Penang", "Johor Bahru", "Ipoh", "Kuching", "Kota Kinabalu", "Shah Alam", "Petaling Jaya", "Malacca", "Klang",
+
+  // Thailand
+  "Bangkok", "Chiang Mai", "Phuket", "Pattaya", "Krabi", "Hua Hin", "Ayutthaya", "Udon Thani", "Nakhon Ratchasima", "Surat Thani",
+
+  // Vietnam
+  "Hanoi", "Ho Chi Minh City", "Da Nang", "Hai Phong", "Nha Trang", "Hue", "Can Tho", "Da Lat", "Vung Tau", "Phu Quoc",
+
+  // Philippines
+  "Manila", "Cebu", "Davao", "Quezon City", "Makati", "Baguio", "Cagayan de Oro", "Iloilo City", "Bacolod", "Zamboanga City",
+
+  // Singapore
+  "Singapore", // Singapore is a city-state, so it has only one major city.
+
+  // Myanmar (Burma)
+  "Yangon", "Naypyidaw", "Mandalay", "Bagan", "Mawlamyine", "Taunggyi", "Pyin Oo Lwin", "Sittwe", "Pathein", "Monywa",
+
+  // Cambodia
+  "Phnom Penh", "Siem Reap", "Battambang", "Sihanoukville", "Kampong Cham", "Kampot", "Koh Kong", "Pursat", "Takeo", "Kratie",
+
+  // Laos
+  "Vientiane", "Luang Prabang", "Pakse", "Savannakhet", "Vang Vieng", "Thakhek", "Phonsavan", "Xam Neua", "Muang Xay", "Champasak",
+
+  // Brunei
+  "Bandar Seri Begawan", "Kuala Belait", "Seria", "Tutong", "Bangar", // Brunei has fewer major cities.
+
+  // Timor-Leste (East Timor)
+  "Dili", "Baucau", "Maliana", "Liquica", "Suai", "Same", "Viqueque", "Aileu", "Ainaro", "Manatuto"
+];

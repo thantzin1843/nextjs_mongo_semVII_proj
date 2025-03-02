@@ -60,13 +60,13 @@ function Room({room,forRole,updateRooms}) {
                    <div className='text-xl mb-2 font-bold text-primary'>
                         {room?.name}
                     </div>
-                    <div className="flex items-center mb-2 gap-2">
+                    {/* <div className="flex items-center mb-2 gap-2">
                         <div className='bg-black p-2 rounded-md text-white'>3</div>
                         <div className='text-sm'>
                             <div className="font-bold">Very good</div>
                             <div>5 reviews</div>
                         </div>
-                    </div>
+                    </div> */}
                     <div>
                         {
                             amenities?.slice(0, 5)?.map((n,index)=>{

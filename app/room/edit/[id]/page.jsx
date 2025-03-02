@@ -362,7 +362,10 @@ function page() {
 
                 </div>
             </div>
-            <Button onClick={handleUpdateRoom} className="w-full mb-3">Update and Continue</Button>
+            <div className='flex gap-1'>
+            <Button onClick={()=>window.history.go(-1)} className="w-1/3 mb-3 bg-white border border-primary text-primary hover:bg-gray-100">Back</Button>
+            <Button onClick={handleUpdateRoom} className="w-2/3 mb-3">Update and Continue</Button>
+            </div>
             {/* <Link className="w-full my-3 p-3" href={`/property_list/room/create/${property_id}/room_image`}>Continue</Link> */}
     </div>
   )

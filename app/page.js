@@ -9,11 +9,17 @@ import PropertyCategory from "@/sections/PropertyCategory";
 import Footer from "@/sections/Footer";
 import NextProgress from "next-progress";
 import About from "@/sections/About";
+import LoginPage from "./(auth)/login/page";
 
 
 
 export default async function Home() {
+
   const session = await auth();
+  if(!session?.user?.name ){
+    return <LoginPage/>
+  }
+
   return (
     session?.user?.role == null || session?.user?.role == 'user' ? (
       <div className="px-10">

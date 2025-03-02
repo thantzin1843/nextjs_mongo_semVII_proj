@@ -17,7 +17,7 @@ import {
     DialogTrigger,
   } from "@/components/ui/dialog"
 import { Button } from '@/components/ui/button';
-import { Bed, BedDouble, Edit } from 'lucide-react';
+import { Bed, BedDouble, Cross, Edit, Trash } from 'lucide-react';
 
 function page() {
     const params = useParams();
@@ -33,6 +33,37 @@ function page() {
     useEffect(()=>{
       fetchMyReservations();
     },[])
+
+    const handleCancelBooking = async (id, roomId, checkIn, checkOut, no_of_rooms_reserved) => {
+      console.log(id, roomId, checkIn, checkOut, no_of_rooms_reserved);
+      try {
+          const res = await fetch('/api/my_reservation', {
+              method: 'DELETE',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                  id, // Reservation ID
+                  roomId, // Room ID
+                  checkIn, // Check-in date
+                  checkOut, // Check-out date
+                  no_of_rooms_reserved, // Number of rooms reserved
+              }),
+          });
+  
+          const data = await res.json();
+          console.log(data);
+  
+          if (res.ok) {
+              // Refresh the reservations list
+              fetchMyReservations();
+          } else {
+              console.error('Failed to cancel booking:', data.message);
+          }
+      } catch (error) {
+          console.error('Error cancelling booking:', error);
+      }
+  };
   return (
     <div className='p-5'>
         <div className='text-3xl font-semibold mt-5'>My Reservations</div>
@@ -70,6 +101,9 @@ function page() {
                           <div>
                             $ {r?.totalPrice}
                           </div>
+                          </TableCell>
+                          <TableCell>
+                            <Button className="text-xl text-red-500 font-semibold" onClick={()=>handleCancelBooking(r?._id,r?.roomId?._id,r?.checkIn,r?.checkOut,r?.no_of_rooms_reserved)}><Trash className='inline me-3'/> Cancel Booking</Button>
                           </TableCell>
                           <TableCell>
                           <Dialog>

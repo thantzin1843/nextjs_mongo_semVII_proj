@@ -1,4 +1,5 @@
-import React from 'react'
+'use client'
+import React, { useEffect, useState } from 'react'
 import {
     Carousel,
     CarouselContent,
@@ -14,14 +15,48 @@ import { Button } from './ui/button'
 import Link from 'next/link'
 import { useRoomDetailContext } from '@/context/RoomDetailContext'
 import { useRouter } from 'next/navigation'
+import { getUserId } from '@/app/actions'
 
 function HotelCardOne({room}) {
     const {roomDetail, updateRoomDetail} = useRoomDetailContext();
+    const [fav, setFav] = useState(false);
     const router = useRouter();
     const handleRoomDetail = (room) =>{
-        console.log(room)
         updateRoomDetail(room)
         router.push(`/room/detail`)
+    }
+
+    const getFav = async()=>{
+        try {
+            const d = await getUserId();
+            const userId = d?.data?._id
+            const response = await fetch(`/api/user/fav?roomId=${room?._id}&userId=${userId}`,{method: 'GET'  });
+            const data = await response.json();
+            setFav(data.isFav)
+        } catch (error) {
+            
+        }
+    }
+
+    useEffect(()=>{
+        getFav();
+    },[])
+
+    const handleFav = async()=>{
+            const da = await getUserId();
+            const userId = da?.data?._id
+           
+            setFav(!fav);
+
+            const response = await fetch('/api/user/fav', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ roomId: room?._id, userId:userId, fav:!fav })
+              });
+              const data = await response.json();
+              console.log(data)
     }
   return (
     <div className='w-full shadow-sm border border-gray-300 rounded-md p-3 flex mt-5 hover:border-primary hover:shadow-lg'>
@@ -92,7 +127,7 @@ function HotelCardOne({room}) {
 
         </div>
         <div className="w-1/3 flex flex-col items-end justify-between">
-        <div className='p-2 rounded-full bg-gray-200 hover:bg-gray-300'>
+        <div className={fav ? 'p-2 rounded-full bg-blue-500 hover:bg-blue-600 text-white' : 'p-2 rounded-full bg-gray-200 hover:bg-gray-300'} onClick={handleFav}>
             <Heart/>
         </div>
          <div>

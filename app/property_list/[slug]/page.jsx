@@ -27,18 +27,23 @@ function page() {
     const params = useParams();
     const [properties, setProperties] = useState([]);
     const {formData, updateFormData} = useFormContext();
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
     useEffect(()=>{
       localStorage.setItem('userId',params.slug)
     },[])
 
     const fetchData = async (userId) => {
+      setLoading(true);
       try {
         const response = await fetch(`/api/property?userId=${userId}`);
         const data = await response.json();
         setProperties(data.properties);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching properties:", error);
+      }finally {
+        setLoading(false); // Stop loading
       }
     };
     useEffect(()=>{
@@ -118,22 +123,25 @@ function page() {
             
             
         </div>
+        
         <div className="hidden lg:mt-0 lg:col-span-5 lg:flex h-[300px]">
-            <img src="https://jaanveertoursandtravels.com/assets/img/product/tour/hotel.jpg" alt="mockup"/>
-        </div>                
+            <img src="https://jaanveertoursandtravels.com/assets/img/product/tour/hotel.jpg" alt="mockup"/> 
+        </div>
+
     </div>
 
+                        
+
     <div className='text-3xl mt-5 mb-3'>Your Property Listings</div>
-
-
+             
             <div className="mt-2 w-full mb-5">
-    <Tabs defaultValue="property" className="">
-      <TabsList className="grid w-full grid-cols-2">
-        <TabsTrigger value="property">Properties</TabsTrigger>
-        <TabsTrigger value="reservation">Reservations</TabsTrigger>
-      </TabsList>
-      <TabsContent value="property">
-      <Table className="mb-5">
+              <Tabs defaultValue="property" className="">
+                <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger value="property">Properties</TabsTrigger>
+                  <TabsTrigger value="reservation">Reservations</TabsTrigger>
+                </TabsList>
+                <TabsContent value="property">
+                <Table className="mb-5">
                       {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
                       <TableHeader>
                         <TableRow>
@@ -143,7 +151,22 @@ function page() {
                         </TableRow>
                       </TableHeader>
                       <TableBody>
+                        <TableRow>
+                        <TableCell>
+                        {
+                loading && (
+                  <div className=" flex mx-auto w-1/2 flex-col items-center justify-center">
+                      <div className="w-8 h-8 border-4 mb-3 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                        <p>Fetching Properties</p>
+                     </div>
+                )
+              }
+                        </TableCell>
+                        </TableRow>
+                        
+
     {
+      !loading && properties?.length !== 0 &&
       properties?.map((p,index)=>(
                         <TableRow key={index}>
                           <TableCell> 
