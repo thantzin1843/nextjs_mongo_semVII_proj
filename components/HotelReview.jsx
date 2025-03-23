@@ -58,8 +58,9 @@ function HotelReview({userId, property_id }) {
      },[])
 
      const saveReview = async ()=>{
+        const user_id = await getUserId();
         const loadData = {
-            userId,
+            userId:user_id?.data?._id,
             property_id,
             rating:starRating,
             message,

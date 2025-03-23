@@ -69,7 +69,7 @@ function HotelCardOne({room}) {
                             <CarouselItem key={index}>
         
                                 <Card>
-                                    <CardContent className="w-full bg-red-500">
+                                    <CardContent className="w-full bg-gray-500">
                                     <div className="w-full h-[260px]">
                                         <img src={process.env.NEXT_PUBLIC_URL_ENDPOINT+c.name} className='w-full h-full'/>
                                     </div>

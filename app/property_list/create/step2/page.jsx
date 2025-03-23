@@ -69,7 +69,9 @@ const Step2 = () => {
       
       </div>
       <div>
-      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3817.4163102831635!2d96.12903667231494!3d16.904744483902398!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30c194168bb31e03%3A0x26217574c0bf07bf!2sYangon%20International%20Airport!5e0!3m2!1sen!2smm!4v1738811231941!5m2!1sen!2smm" width="600" height="450" allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+      {
+        mapLink !== "Map not set yet!" && <iframe src={mapLink}></iframe>
+      }
       </div>
     </div>
 

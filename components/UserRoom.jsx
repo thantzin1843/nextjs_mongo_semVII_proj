@@ -49,7 +49,7 @@ function UserRoom({room,images}) {
                     <CarouselItem key={index}>
 
                         <Card>
-                            <CardContent className="w-full bg-red-500">
+                            <CardContent className="w-full bg-gray-500">
                             <div className="w-full h-[170px]">
                                 <img src={process.env.NEXT_PUBLIC_URL_ENDPOINT+c?.name} className='w-full h-full'/>
                             </div>
@@ -173,7 +173,7 @@ function UserRoom({room,images}) {
                     </div>
 <hr />
                     <div>
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Assumenda veritatis eius adipisci odio. Vero velit ea dolorem rerum? Ad iusto sed, corrupti facilis hic quam illo nesciunt ab excepturi ex?
+                        
                         {room?.description} 
                     </div>
                
@@ -183,7 +183,7 @@ function UserRoom({room,images}) {
                     <div>
                         {room?.price} $ per night
                     </div>
-                    <Link href={`/room/reserve/${room?._id}`} className='bg-primary py-2 px-3 rounded-md text-white'>Reserve Now</Link>
+                    <Button onClick={()=>handleReserve()} className='bg-primary py-2 px-3 rounded-md text-white'>Reserve</Button>
 
                     
                     </DialogContent>

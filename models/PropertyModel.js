@@ -37,6 +37,7 @@ const PropertySchema = new mongoose.Schema(
     facilities: [String],
     fun_things_todo: [String],
     property_accessibility: [String],
+    description:String,
     bathroom_info: {
       private: Boolean,
       items: [String]

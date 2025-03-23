@@ -54,6 +54,7 @@ function page() {
     const handleEdit = (p) =>{
       updateFormData({
             _id:p._id,
+            description:p.description,
             propertyName:p.property_name,
             propertyCategory:p.property_category,
             address: p.location.address,

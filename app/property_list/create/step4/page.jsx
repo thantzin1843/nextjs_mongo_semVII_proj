@@ -24,6 +24,7 @@ export default function page(){
      const [payments, setPayments] = useState(formData.payments || []);
      const [distance, setDistance] = useState(formData.distance || 0);
      const [unit, setUnit] = useState(formData.unit || "");
+     const [description, setdescription] = useState(formData.description ||  "");
      const {toast} = useToast();
      const router = useRouter();
     const nextStep = () => {
@@ -75,6 +76,7 @@ export default function page(){
         formData.payments =payments;
         formData.distance =distance;
         formData.unit = unit;
+        formData.description = description;
 
         // const session = await auth();
         
@@ -82,6 +84,7 @@ export default function page(){
             userId:localStorage.getItem("userId"),
             property_name: formData.propertyName,
             property_category: formData.propertyCategory,
+            description:formData.description,
             location: {
               address: formData.address,
               city: formData.city,
@@ -268,8 +271,15 @@ export default function page(){
             </select>
             </div>
 
+            
+            <div className="w-full ">
+            <div>Description</div>
+            <textarea id="" className="border border-primary w-full rounded-md " value={description} rows={10}  onChange={(e)=>setdescription(e.target.value)}>
+                
+            </textarea>
             </div>
 
+            </div>
             </div>
             <div className="flex w-full justify-between my-5 gap-5">
                   <Button onClick={prevStep} className="w-1/3 border border-primary bg-white hover:bg-white text-black">Back</Button>

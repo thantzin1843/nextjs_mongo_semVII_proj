@@ -332,6 +332,10 @@ function page() {
 
             </div>
             {/* end of price per room */}
+            <div className='w-full mt-5'>
+                <div>Description</div>
+                <textarea name="" className='w-full border border-primary rounded-md' rows={6} value={description} onChange ={(e)=>setdescription(e.target.value)} id=""></textarea>
+            </div>
 
                 </div>
             </div>

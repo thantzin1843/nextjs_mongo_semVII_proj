@@ -143,7 +143,9 @@ function page() {
            <div className='w-1/4 p-2'>
         {/* map */}
         <div className='w-full h-[150px] bg-black'>
-        <iframe src={rooms[0]?.property_id?.location?.mapLink} className='w-full h-full' allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+        {
+            rooms[0]?.property_id?.location?.mapLink && <iframe src={rooms[0]?.property_id?.location?.mapLink} className='w-full h-full' allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+        }
         </div>
 
         {/* Property type */}

@@ -18,15 +18,16 @@ import {
 import { Button } from './ui/button'
 import { Edit } from 'lucide-react'
 function ReservationList({userId}) {
-
+    // alert(userId)
     const [reservations, setReservations] = useState([]);
     const [loading, setLoading] = useState(false);
     const fetchReservations = async () => {
         setLoading(true)
         const response = await fetch(`/api/reserve?userId=${userId}`)
         const data = await response.json()
-        // console.log(data?.reservations)
-        data?.reservation && setReservations(data)
+        // console.log('reserv')
+        // console.log(data)
+        data && setReservations(data)
         setLoading(false)
     }
     useEffect(()=>{

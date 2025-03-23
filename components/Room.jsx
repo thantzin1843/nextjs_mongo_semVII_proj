@@ -38,7 +38,7 @@ function Room({room,forRole,updateRooms}) {
                     <CarouselItem key={index}>
 
                         <Card>
-                            <CardContent className="w-full bg-red-500">
+                            <CardContent className="w-full bg-gray-500">
                             <div className="w-full h-[170px]">
                                 <img src={process.env.NEXT_PUBLIC_URL_ENDPOINT+c?.name} className='w-full h-full'/>
                             </div>
@@ -86,7 +86,7 @@ function Room({room,forRole,updateRooms}) {
                             { forRole=='user' ? <Button>Reserve</Button> : (
                                 <>
                                 <Link href={`/room/edit/${_id}`}>Edit</Link>
-                                <Button className="" onClick={()=>handleDelete(_id)}>Delete</Button>
+                                <Button className="ms-2" onClick={()=>handleDelete(_id)}>Delete</Button>
                                 </>
                                 )}
                         </div>
