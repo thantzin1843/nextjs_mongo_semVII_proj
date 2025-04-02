@@ -7,6 +7,11 @@ const nextConfig = {
             hostname: "ik.imagekit.io",
             port: "",
           },
+          {
+            protocol: "https",
+            hostname: "www.luxurylink.com",
+            port: "",
+          },
 
           
         ],
